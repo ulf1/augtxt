@@ -3,10 +3,10 @@ import numpy as np
 import scipy.stats
 
 
-def typo_char_swap(word: str,
-                   loc: Optional[Union[int, float, str]] = 0,
-                   keep_case: Optional[bool] = False
-                  ) -> str:
+def typo_swap_consecutive(word: str,
+                          loc: Optional[Union[int, float, str]] = 0,
+                          keep_case: Optional[bool] = False
+                         ) -> str:
     """Swap two consecutive chars (dt. Vertauscher)
 
     word : str
@@ -24,16 +24,16 @@ def typo_char_swap(word: str,
 
     Examples:
     ---------
-        typo_char_swap("Kinder", loc=0)
+        typo_swap_consecutive("Kinder", loc=0)
         iKnder
 
-        typo_char_swap("Kinder", loc=0, keep_case=True)
+        typo_swap_consecutive("Kinder", loc=0, keep_case=True)
         Iknder
 
         np.random.seed(seed=42)
-        typo_char_swap("Kinder", loc='middle', keep_case=True)
-        typo_char_swap("Kinder", loc='begin', keep_case=True)
-        typo_char_swap("Kinder", loc='end', keep_case=True)
+        typo_swap_consecutive("Kinder", loc='middle', keep_case=True)
+        typo_swap_consecutive("Kinder", loc='begin', keep_case=True)
+        typo_swap_consecutive("Kinder", loc='end', keep_case=True)
         'Kindre', 'Iknder', 'Kindre'
     """
     # abort prematurly
