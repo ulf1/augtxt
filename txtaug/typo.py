@@ -3,6 +3,44 @@ import numpy as np
 import scipy.stats
 
 
+def draw_index(n: int, loc: Union[int, float, str]):
+    """Get index
+
+    n : int
+        upper value from interval [0,n] to draw from
+
+    loc : Union[int, float, str]
+        If `int`, the index of the 1st char to swap
+        If `float`, the `p` of `binom.rvs(n, p)`
+        If 'b', then `binom.rvs(n, p=0.1)`
+        If 'm', then `binom.rvs(n, p=0.5)`
+        If 'e', then `binom.rvs(n, p=0.9)`
+
+    Examples:
+    ---------
+        np.random.seed(seed=42)
+        idx = draw_index(7, loc='middle')
+    """
+    if isinstance(loc, int):  # Given index
+        i = max(0, min(n, loc))
+
+    elif isinstance(loc, float):  # Pick random index
+        p = max(0.0, min(1.0, loc))
+        i = scipy.stats.binom.rvs(n, p)
+
+    elif isinstance(loc, str):  # Pick random index
+        if isinstance(loc, str):
+            if loc in ('begin', 'b'):
+                p = 0.1
+            elif loc in ('middle', 'm'):
+                p = 0.5
+            elif loc in ('end', 'e'):
+                p = 0.9
+        i = scipy.stats.binom.rvs(n, p)
+
+    return i
+
+
 def swap_consecutive(word: str,
                      loc: Optional[Union[int, float, str]] = 0,
                      keep_case: Optional[bool] = False
@@ -13,11 +51,7 @@ def swap_consecutive(word: str,
         One word token
 
     loc : Union[int, float, str]
-        If `int`, the index of the 1st char to swap
-        If `float`, the `p` of `binom.rvs(n, p)`
-        If 'b', then `binom.rvs(n, p=0.1)`
-        If 'm', then `binom.rvs(n, p=0.5)`
-        If 'e', then `binom.rvs(n, p=0.9)`
+        see txtaug.typo.draw_index
 
     keep_case : bool  (Default False, i.e. never)
         Enforce the original letter cases on the new string.
@@ -45,24 +79,7 @@ def swap_consecutive(word: str,
     res = [c for c in word]
 
     # find index of the 1st char
-    if isinstance(loc, int):  # Given index
-        i = max(0, min(n_chars - 2, loc))
-
-    elif isinstance(loc, float):  # Pick random index
-        binom_n = n_chars - 2
-        binom_p = max(0.0, min(1.0, loc))
-        i = scipy.stats.binom.rvs(binom_n, binom_p)
-
-    elif isinstance(loc, str):  # Pick random index
-        binom_n = n_chars - 2
-        if isinstance(loc, str):
-            if loc in ('begin', 'b'):
-                binom_p = 0.1
-            elif loc in ('middle', 'm'):
-                binom_p = 0.5
-            elif loc in ('end', 'e'):
-                binom_p = 0.9
-        i = scipy.stats.binom.rvs(binom_n, binom_p)
+    i = draw_index(n_chars - 2, loc)
 
     # enforce letter case
     if keep_case:
