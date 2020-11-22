@@ -20,9 +20,12 @@ import numpy as np
 ## Typographical Errors (Tippfehler)
 
 ### Swap two consecutive characters (Vertauscher)
-- Swap 1st and 2nd characters: `typo_char_swap("Kinder", loc=0)`  (Result: `iKnder`)
-- Swap 1st and 2nd characters, and enforce letter cases: `typo_char_swap("Kinder", loc=0, keep_case=True)`  (Result: `Iknder`)
-- Swap random `i`-th and `i+1`-th characters that are more likely at the end of the word: `np.random.seed(seed=123); typo_char_swap("Kinder", loc='end')`
+A user mix two consecutive characters up.
+
+- Swap 1st and 2nd characters: `typo_swap_consecutive("Kinder", loc=0)`  (Result: `iKnder`)
+- Swap 1st and 2nd characters, and enforce letter cases: `typo_swap_consecutive("Kinder", loc=0, keep_case=True)`  (Result: `Iknder`)
+- Swap random `i`-th and `i+1`-th characters that are more likely at the end of the word: `np.random.seed(seed=123); typo_swap_consecutive("Kinder", loc='end')`
+
 
 
 # Appendix
