@@ -6,7 +6,7 @@ import scipy.stats
 def swap_consecutive(word: str,
                      loc: Optional[Union[int, float, str]] = 0,
                      keep_case: Optional[bool] = False
-                    ) -> str:
+                     ) -> str:
     """Swap two consecutive chars (dt. Vertauscher)
 
     word : str
@@ -48,9 +48,9 @@ def swap_consecutive(word: str,
     if isinstance(loc, int):  # Given index
         i = max(0, min(n_chars - 2, loc))
 
-    elif isinstance(loc, float): # Pick random index
+    elif isinstance(loc, float):  # Pick random index
         binom_n = n_chars - 2
-        binom_p =  max(0.0, min(1.0, loc))
+        binom_p = max(0.0, min(1.0, loc))
         i = scipy.stats.binom.rvs(binom_n, binom_p)
 
     elif isinstance(loc, str):  # Pick random index
@@ -63,17 +63,17 @@ def swap_consecutive(word: str,
             elif loc in ('end', 'e'):
                 binom_p = 0.9
         i = scipy.stats.binom.rvs(binom_n, binom_p)
-   
+
     # enforce letter case
     if keep_case:
-        c0, c1 = res[i].isupper(), res[i+1].isupper()
+        c0, c1 = res[i].isupper(), res[i + 1].isupper()
 
     # swap
-    res[i], res[i+1] = res[i+1], res[i]
+    res[i], res[i + 1] = res[i + 1], res[i]
 
     # enforce previous letter cases
     if keep_case:
         res[i] = res[i].upper() if c0 else res[i].lower()
-        res[i+1] = res[i+1].upper() if c1 else res[i+1].lower()
+        res[i + 1] = res[i + 1].upper() if c1 else res[i + 1].lower()
 
     return ''.join(res)
