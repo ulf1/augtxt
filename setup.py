@@ -17,6 +17,9 @@ setup(name='txtaug',
       license='MIT',
       packages=['txtaug'],
       install_requires=[
-          'setuptools>=40.0.0'],
+          'setuptools>=40.0.0',
+          'numpy>=1.19.0',
+          'scipy>=1.5.4'
+      ],
       python_requires='>=3.6',
       zip_safe=False)
