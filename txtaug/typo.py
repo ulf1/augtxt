@@ -3,10 +3,10 @@ import numpy as np
 import scipy.stats
 
 
-def typo_swap_consecutive(word: str,
-                          loc: Optional[Union[int, float, str]] = 0,
-                          keep_case: Optional[bool] = False
-                         ) -> str:
+def swap_consecutive(word: str,
+                     loc: Optional[Union[int, float, str]] = 0,
+                     keep_case: Optional[bool] = False
+                    ) -> str:
     """Swap two consecutive chars (dt. Vertauscher)
 
     word : str
