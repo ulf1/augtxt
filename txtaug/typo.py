@@ -3,8 +3,51 @@ import numpy as np
 import scipy.stats
 
 
+def draw_index(n: int, loc: Union[int, float, str]):
+    """Get index
+
+    n : int
+        upper value from interval [0,n] to draw from
+
+    loc : Union[int, float, str]
+        If `int`, the index of the 1st char to swap
+        If `float`, the `p` of `binom.rvs(n, p)`
+        If 'b', then `binom.rvs(n, p=0.1)`
+        If 'm', then `binom.rvs(n, p=0.5)`
+        If 'e', then `binom.rvs(n, p=0.9)`
+        if 'u', then uniform random
+
+    Examples:
+    ---------
+        np.random.seed(seed=42)
+        idx = draw_index(7, loc='middle')
+    """
+    if isinstance(loc, int):  # Given index
+        i = max(0, min(n, loc))
+
+    elif isinstance(loc, float):  # Pick random index
+        p = max(0.0, min(1.0, loc))
+        i = scipy.stats.binom.rvs(n, p)
+
+    elif isinstance(loc, str):  # Pick random index
+        if loc in ('uniform', 'u'):
+            i = scipy.stats.randint.rvs(0, n + 1)
+        else:
+            if loc in ('begin', 'b'):
+                p = 0.1
+            elif loc in ('middle', 'm'):
+                p = 0.5
+            elif loc in ('end', 'e'):
+                p = 0.9
+            else:
+                raise Exception("Unknown p (loc) for binom")
+            i = scipy.stats.binom.rvs(n, p)
+
+    return i
+
+
 def swap_consecutive(word: str,
-                     loc: Optional[Union[int, float, str]] = 0,
+                     loc: Optional[Union[int, float, str]] = 'u',
                      keep_case: Optional[bool] = False
                      ) -> str:
     """Swap two consecutive chars (dt. Vertauscher)
@@ -13,27 +56,23 @@ def swap_consecutive(word: str,
         One word token
 
     loc : Union[int, float, str]
-        If `int`, the index of the 1st char to swap
-        If `float`, the `p` of `binom.rvs(n, p)`
-        If 'b', then `binom.rvs(n, p=0.1)`
-        If 'm', then `binom.rvs(n, p=0.5)`
-        If 'e', then `binom.rvs(n, p=0.9)`
+        see txtaug.typo.draw_index
 
     keep_case : bool  (Default False, i.e. never)
         Enforce the original letter cases on the new string.
 
     Examples:
     ---------
-        typo_swap_consecutive("Kinder", loc=0)
+        swap_consecutive("Kinder", loc=0)
         iKnder
 
-        typo_swap_consecutive("Kinder", loc=0, keep_case=True)
+        swap_consecutive("Kinder", loc=0, keep_case=True)
         Iknder
 
         np.random.seed(seed=42)
-        typo_swap_consecutive("Kinder", loc='middle', keep_case=True)
-        typo_swap_consecutive("Kinder", loc='begin', keep_case=True)
-        typo_swap_consecutive("Kinder", loc='end', keep_case=True)
+        swap_consecutive("Kinder", loc='middle', keep_case=True)
+        swap_consecutive("Kinder", loc='begin', keep_case=True)
+        swap_consecutive("Kinder", loc='end', keep_case=True)
         'Kindre', 'Iknder', 'Kindre'
     """
     # abort prematurly
@@ -45,24 +84,7 @@ def swap_consecutive(word: str,
     res = [c for c in word]
 
     # find index of the 1st char
-    if isinstance(loc, int):  # Given index
-        i = max(0, min(n_chars - 2, loc))
-
-    elif isinstance(loc, float):  # Pick random index
-        binom_n = n_chars - 2
-        binom_p = max(0.0, min(1.0, loc))
-        i = scipy.stats.binom.rvs(binom_n, binom_p)
-
-    elif isinstance(loc, str):  # Pick random index
-        binom_n = n_chars - 2
-        if isinstance(loc, str):
-            if loc in ('begin', 'b'):
-                binom_p = 0.1
-            elif loc in ('middle', 'm'):
-                binom_p = 0.5
-            elif loc in ('end', 'e'):
-                binom_p = 0.9
-        i = scipy.stats.binom.rvs(binom_n, binom_p)
+    i = draw_index(n_chars - 2, loc)
 
     # enforce letter case
     if keep_case:
@@ -77,3 +99,119 @@ def swap_consecutive(word: str,
         res[i + 1] = res[i + 1].upper() if c1 else res[i + 1].lower()
 
     return ''.join(res)
+
+
+def pressed_twice(word: str,
+                  loc: Optional[Union[int, float, str]] = 'u',
+                  keep_case: Optional[bool] = False
+                  ) -> str:
+    """A key is pressed twice accidentaly (dt. Einfüger)
+
+    word : str
+        One word token
+
+    loc : Union[int, float, str]
+        see txtaug.typo.draw_index
+
+    flip_case : bool  (Default False, i.e. never)
+        Enforce the letter case of the succeeding charcter.
+
+    """
+    # abort prematurly
+    n_chars = len(word)
+    if n_chars == 1:
+        return word + word
+
+    # find index of the 1st char
+    i = draw_index(n_chars - 1, loc)
+
+    # save letter case
+    i2 = min(i + 1, n_chars - 1)
+    if keep_case:
+        case = word[i2].isupper()
+        c = word[i].upper() if case else word[i].lower()
+    else:
+        c = word[i]
+
+    return word[:i2] + c + word[i2:]
+
+
+def drop_char(word: str,
+              loc: Optional[Union[int, float, str]] = 'u',
+              keep_case: Optional[bool] = False
+              ) -> str:
+    """Drop a character (dt. Auslasser)
+
+    word : str
+        One word token
+
+    loc : Union[int, float, str]
+        see txtaug.typo.draw_index
+
+    keep_case : bool
+        Apply the letter case of the dropped character to the next
+          remaining character.
+    """
+    # abort prematurly
+    n_chars = len(word)
+    if n_chars == 1:
+        return word
+
+    # find index of the 1st char
+    i = draw_index(n_chars - 1, loc)
+
+    # save letter case
+    if keep_case:
+        case = word[i].isupper()
+
+    # create new word
+    res = word[:i] + word[(i + 1):]
+
+    # enforce dropped letter case on the next charcter
+    if keep_case:
+        res = ''.join([c.upper() if idx == i and case else c
+                       for idx, c in enumerate(res)])
+
+    # done
+    return res
+
+
+def drop_n_next_twice(word: str,
+                      loc: Optional[Union[int, float, str]] = 'u',
+                      keep_case: Optional[bool] = False
+                      ) -> str:
+    """Letter is left out, but the following letter is typed twice
+        (dt. Vertipper)
+
+    word : str
+        One word token
+
+    loc : Union[int, float, str]
+        see txtaug.typo.draw_index
+
+    keep_case : bool
+        Apply the letter case of the dropped character to the next
+          remaining character.
+    """
+    # abort prematurly
+    n_chars = len(word)
+    if n_chars == 1:
+        return word
+
+    # find index of the 1st char
+    i = draw_index(n_chars - 2, loc)
+
+    # save letter case
+    if keep_case:
+        case = word[i].isupper()
+
+    # create new word
+    i2 = min(i + 1, n_chars - 1)
+    res = word[:i] + word[i2] + word[i2:]
+
+    # enforce dropped letter case on the next charcter
+    if keep_case:
+        res = ''.join([c.upper() if idx == i and case else c
+                       for idx, c in enumerate(res)])
+    # done
+    return res
