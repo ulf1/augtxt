@@ -29,14 +29,23 @@ A user mix two consecutive characters up.
 ### Add double letter (Einfüger)
 User presses a key twice accidentaly
 
-- Make 5th letter a double letter: `pressed_twice("Eltern", loc=4)`  (Result: `Elterrn`)
+- Make 5th letter a double letter: ``txtaug.typo.pressed_twice("Eltern", loc=4)`  (Result: `Elterrn`)
 
 
 ### Drop character (Auslasser)
 User presses the key not enough (Lisbach, 2011, p.72), the key is broken, finger motion fails.
 
-- Drop the 3rd letter: `drop_char("Straße", loc=2)` (Result: `Staße`)
+- Drop the 3rd letter: `txtaug.typo.drop_char("Straße", loc=2)` (Result: `Staße`)
 
+
+## Drop character followed by double letter (Vertipper)
+Letter is left out, but the following letter is typed twice.
+It's a combination of `txtaug.typo.pressed_twice` and `txtaug.typo.drop_char`.
+
+```py
+augm = drop_n_next_twice("Tante", loc=2)
+# Tatte
+```
 
 ## References
 - Lisbach, B., 2011. Linguistisches Identity Matching. Vieweg+Teubner, Wiesbaden. https://doi.org/10.1007/978-3-8348-9791-6

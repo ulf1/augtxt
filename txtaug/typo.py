@@ -174,3 +174,44 @@ def drop_char(word: str,
 
     # done
     return res
+
+
+def drop_n_next_twice(word: str,
+                      loc: Optional[Union[int, float, str]] = 'u',
+                      keep_case: Optional[bool] = False
+                      ) -> str:
+    """Letter is left out, but the following letter is typed twice
+        (dt. Vertipper)
+
+    word : str
+        One word token
+
+    loc : Union[int, float, str]
+        see txtaug.typo.draw_index
+
+    keep_case : bool
+        Apply the letter case of the dropped character to the next
+          remaining character.
+    """
+    # abort prematurly
+    n_chars = len(word)
+    if n_chars == 1:
+        return word
+
+    # find index of the 1st char
+    i = draw_index(n_chars - 2, loc)
+
+    # save letter case
+    if keep_case:
+        case = word[i].isupper()
+
+    # create new word
+    i2 = min(i + 1, n_chars - 1)
+    res = word[:i] + word[i2] + word[i2:]
+
+    # enforce dropped letter case on the next charcter
+    if keep_case:
+        res = ''.join([c.upper() if idx == i and case else c
+                       for idx, c in enumerate(res)])
+    # done
+    return res
