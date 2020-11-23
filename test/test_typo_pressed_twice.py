@@ -37,7 +37,21 @@ def test7():
     augm = (
         pressed_twice("Eltern", loc='begin'),
         pressed_twice("Eltern", loc='middle'),
-
         pressed_twice("Eltern", loc='end')
     )
     assert augm == ('EEltern', 'Elteern', 'Elternn')
+
+
+def test8():
+    augm = pressed_twice("Ab", loc=0, keep_case=False)
+    assert augm == "AAb"
+
+
+def test9():
+    augm = pressed_twice("Ab", loc=0, keep_case=True)
+    assert augm == "Aab"
+
+
+def test10():
+    augm = pressed_twice("A", loc=0, keep_case=True)
+    assert augm == "AA"
