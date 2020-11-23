@@ -37,7 +37,7 @@ def test7():
     augm = (
         pressed_twice("Eltern", loc='begin'),
         pressed_twice("Eltern", loc='middle'),
-        
+
         pressed_twice("Eltern", loc='end')
     )
     assert augm == ('EEltern', 'Elteern', 'Elternn')
