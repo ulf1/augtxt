@@ -32,6 +32,16 @@ User presses a key twice accidentaly
 - Make 5th letter a double letter: `pressed_twice("Eltern", loc=4)`  (Result: `Elterrn`)
 
 
+### Drop character (Auslasser)
+User presses the key not enough (Lisbach, 2011, p.72), the key is broken, finger motion fails.
+
+- Drop the 3rd letter: `drop_char("Straße", loc=2)` (Result: `Staße`)
+
+
+## References
+- Lisbach, B., 2011. Linguistisches Identity Matching. Vieweg+Teubner, Wiesbaden. https://doi.org/10.1007/978-3-8348-9791-6
+
+
 # Appendix
 
 ## Installation
