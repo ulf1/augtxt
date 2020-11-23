@@ -17,6 +17,49 @@ import txtaug
 import numpy as np
 ```
 
+## Pipelines
+
+### Word Augmentation 
+
+```py
+from txtaug.augmenters import wordaug
+import numpy as np
+from collections import Counter
+
+settings = [
+    {
+        'p': 0.04,
+        'fn': 'typo.drop_n_next_twice',
+        'args': {'loc': ['m', 'e'], 'keep_case': True}
+    },
+    {
+        'p': 0.04,
+        'fn': 'typo.swap_consecutive',
+        'args': {'loc': ['m', 'e'], 'keep_case': True}
+    },
+    {
+        'p': 0.02,
+        'fn': 'typo.pressed_twice',
+        'args': {'loc': 'u', 'keep_case': True}
+    },
+    {
+        'p': 0.02,
+        'fn': 'typo.drop_char',
+        'args': {'loc': ['m', 'e'], 'keep_case': True}
+    },
+]
+
+np.random.seed(seed=42)
+word = "Blume"
+newwords = []
+for i in range(1000):
+    newwords.append( wordaug(word, settings) )
+
+Counter(newwords)
+```
+
+
+
 ## Typographical Errors (Tippfehler)
 
 ### Swap two consecutive characters (Vertauscher)
