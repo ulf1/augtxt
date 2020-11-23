@@ -26,6 +26,10 @@ A user mix two consecutive characters up.
 - Swap 1st and 2nd characters, and enforce letter cases: `txtaug.typo.swap_consecutive("Kinder", loc=0, keep_case=True)`  (Result: `Iknder`)
 - Swap random `i`-th and `i+1`-th characters that are more likely at the end of the word: `np.random.seed(seed=123); txtaug.typo.swap_consecutive("Kinder", loc='end')`
 
+### Add double letter (Einfüger)
+User presses a key twice accidentaly
+
+- Make 5th letter a double letter: `pressed_twice("Eltern", loc=4)`  (Result: `Elterrn`)
 
 
 # Appendix

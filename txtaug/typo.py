@@ -58,16 +58,16 @@ def swap_consecutive(word: str,
 
     Examples:
     ---------
-        typo_swap_consecutive("Kinder", loc=0)
+        swap_consecutive("Kinder", loc=0)
         iKnder
 
-        typo_swap_consecutive("Kinder", loc=0, keep_case=True)
+        swap_consecutive("Kinder", loc=0, keep_case=True)
         Iknder
 
         np.random.seed(seed=42)
-        typo_swap_consecutive("Kinder", loc='middle', keep_case=True)
-        typo_swap_consecutive("Kinder", loc='begin', keep_case=True)
-        typo_swap_consecutive("Kinder", loc='end', keep_case=True)
+        swap_consecutive("Kinder", loc='middle', keep_case=True)
+        swap_consecutive("Kinder", loc='begin', keep_case=True)
+        swap_consecutive("Kinder", loc='end', keep_case=True)
         'Kindre', 'Iknder', 'Kindre'
     """
     # abort prematurly
@@ -94,3 +94,18 @@ def swap_consecutive(word: str,
         res[i + 1] = res[i + 1].upper() if c1 else res[i + 1].lower()
 
     return ''.join(res)
+
+
+def pressed_twice(word: str,
+                  loc: Optional[Union[int, float, str]] = 0
+                  ) -> str:
+    """A key is pressed twice accidentaly (dt. Einfüger)"""
+    # abort prematurly
+    n_chars = len(word)
+    if n_chars == 1:
+        return word + word
+
+    # find index of the 1st char
+    i = draw_index(n_chars - 1, loc)
+
+    return word[:i] + word[i] + word[i:]

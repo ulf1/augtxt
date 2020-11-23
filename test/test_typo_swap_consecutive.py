@@ -1,6 +1,5 @@
 import numpy as np
-from txtaug.typo import (
-    swap_consecutive)
+from txtaug.typo import swap_consecutive
 
 
 def test1():
