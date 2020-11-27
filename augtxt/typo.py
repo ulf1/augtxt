@@ -56,7 +56,7 @@ def swap_consecutive(word: str,
         One word token
 
     loc : Union[int, float, str]
-        see txtaug.typo.draw_index
+        see augtxt.typo.draw_index
 
     keep_case : bool  (Default False, i.e. never)
         Enforce the original letter cases on the new string.
@@ -111,7 +111,7 @@ def pressed_twice(word: str,
         One word token
 
     loc : Union[int, float, str]
-        see txtaug.typo.draw_index
+        see augtxt.typo.draw_index
 
     flip_case : bool  (Default False, i.e. never)
         Enforce the letter case of the succeeding charcter.
@@ -146,7 +146,7 @@ def drop_char(word: str,
         One word token
 
     loc : Union[int, float, str]
-        see txtaug.typo.draw_index
+        see augtxt.typo.draw_index
 
     keep_case : bool
         Apply the letter case of the dropped character to the next
@@ -187,7 +187,7 @@ def drop_n_next_twice(word: str,
         One word token
 
     loc : Union[int, float, str]
-        see txtaug.typo.draw_index
+        see augtxt.typo.draw_index
 
     keep_case : bool
         Apply the letter case of the dropped character to the next

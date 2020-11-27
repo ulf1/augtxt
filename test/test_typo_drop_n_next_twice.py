@@ -1,4 +1,4 @@
-from txtaug.typo import drop_n_next_twice
+from augtxt.typo import drop_n_next_twice
 
 
 def test1():

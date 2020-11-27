@@ -6,16 +6,16 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-setup(name='txtaug',
+setup(name='augtxt',
       version='0.1.0',
       description='yet another text augmentation python package',
       long_description=read('README.md'),
       long_description_content_type='text/markdown',
-      url='http://github.com/ulf1/txtaug',
+      url='http://github.com/ulf1/augtxt',
       author='Ulf Hamster',
       author_email='554c46@gmail.com',
       license='MIT',
-      packages=['txtaug'],
+      packages=['augtxt'],
       install_requires=[
           'setuptools>=40.0.0',
           'numpy>=1.19.0',

@@ -1,4 +1,4 @@
-# txtaug -- Text Augmentation
+# augtxt -- Text Augmentation
 Yet another text augmentation python package.
 
 ## Table of Contents
@@ -13,7 +13,7 @@ Yet another text augmentation python package.
 # Usage
 
 ```py
-import txtaug
+import augtxt
 import numpy as np
 ```
 
@@ -22,7 +22,7 @@ import numpy as np
 ### Word Augmentation 
 
 ```py
-from txtaug.augmenters import wordaug
+from augtxt.augmenters import wordaug
 import numpy as np
 from collections import Counter
 
@@ -65,25 +65,25 @@ Counter(newwords)
 ### Swap two consecutive characters (Vertauscher)
 A user mix two consecutive characters up.
 
-- Swap 1st and 2nd characters: `txtaug.typo.swap_consecutive("Kinder", loc=0)`  (Result: `iKnder`)
-- Swap 1st and 2nd characters, and enforce letter cases: `txtaug.typo.swap_consecutive("Kinder", loc=0, keep_case=True)`  (Result: `Iknder`)
-- Swap random `i`-th and `i+1`-th characters that are more likely at the end of the word: `np.random.seed(seed=123); txtaug.typo.swap_consecutive("Kinder", loc='end')`
+- Swap 1st and 2nd characters: `augtxt.typo.swap_consecutive("Kinder", loc=0)`  (Result: `iKnder`)
+- Swap 1st and 2nd characters, and enforce letter cases: `augtxt.typo.swap_consecutive("Kinder", loc=0, keep_case=True)`  (Result: `Iknder`)
+- Swap random `i`-th and `i+1`-th characters that are more likely at the end of the word: `np.random.seed(seed=123); augtxt.typo.swap_consecutive("Kinder", loc='end')`
 
 ### Add double letter (Einfüger)
 User presses a key twice accidentaly
 
-- Make 5th letter a double letter: ``txtaug.typo.pressed_twice("Eltern", loc=4)`  (Result: `Elterrn`)
+- Make 5th letter a double letter: ``augtxt.typo.pressed_twice("Eltern", loc=4)`  (Result: `Elterrn`)
 
 
 ### Drop character (Auslasser)
 User presses the key not enough (Lisbach, 2011, p.72), the key is broken, finger motion fails.
 
-- Drop the 3rd letter: `txtaug.typo.drop_char("Straße", loc=2)` (Result: `Staße`)
+- Drop the 3rd letter: `augtxt.typo.drop_char("Straße", loc=2)` (Result: `Staße`)
 
 
 ## Drop character followed by double letter (Vertipper)
 Letter is left out, but the following letter is typed twice.
-It's a combination of `txtaug.typo.pressed_twice` and `txtaug.typo.drop_char`.
+It's a combination of `augtxt.typo.pressed_twice` and `augtxt.typo.drop_char`.
 
 ```py
 augm = drop_n_next_twice("Tante", loc=2)
@@ -97,10 +97,10 @@ augm = drop_n_next_twice("Tante", loc=2)
 # Appendix
 
 ## Installation
-The `txtaug` [git repo](http://github.com/ulf1/txtaug) is available as [PyPi package](https://pypi.org/project/txtaug)
+The `augtxt` [git repo](http://github.com/ulf1/augtxt) is available as [PyPi package](https://pypi.org/project/augtxt)
 
 ```
-pip install txtaug>=0.1.0
+pip install augtxt>=0.1.0
 ```
 
 
@@ -134,8 +134,8 @@ rm -r .venv
 ```
 
 ## Support
-Please [open an issue](https://github.com/ulf1/txtaug/issues/new) for support.
+Please [open an issue](https://github.com/ulf1/augtxt/issues/new) for support.
 
 
 ## Contributing
-Please contribute using [Github Flow](https://guides.github.com/introduction/flow/). Create a branch, add commits, and [open a pull request](https://github.com/ulf1/txtaug/compare/).
+Please contribute using [Github Flow](https://guides.github.com/introduction/flow/). Create a branch, add commits, and [open a pull request](https://github.com/ulf1/augtxt/compare/).

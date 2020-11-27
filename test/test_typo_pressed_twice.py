@@ -1,5 +1,5 @@
 import numpy as np
-from txtaug.typo import pressed_twice
+from augtxt.typo import pressed_twice
 
 
 def test1():

@@ -2,7 +2,7 @@ from typing import List
 import copy
 import numpy as np
 import scipy.stats
-import txtaug.typo as typo
+import augtxt.typo as typo
 
 
 fn_dict = {
