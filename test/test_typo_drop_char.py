@@ -1,4 +1,4 @@
-from txtaug.typo import drop_char
+from augtxt.typo import drop_char
 
 
 def test1():
