@@ -1,6 +1,7 @@
 from typing import Optional, Union
 import numpy as np
 import scipy.stats
+import augtxt.keyboard_layouts as kbl
 
 
 def draw_index(n: int, loc: Union[int, float, str]):
@@ -215,3 +216,49 @@ def drop_n_next_twice(word: str,
                        for idx, c in enumerate(res)])
     # done
     return res
+
+
+def pressed_shiftalt(word: str,
+                     loc: Optional[Union[int, float, str]] = 'u',
+                     keymap: dict = kbl.macbook_us,
+                     trans: dict = kbl.keyboard_transprob
+                     ) -> str:
+    """Typo due to pressing or not pressing SHIFT, ALT, or SHIFT+ALT
+
+    word : str
+        One word token
+
+    loc : Union[int, float, str]
+        see augtxt.typo.draw_index
+
+    keymap: dict
+        A dictionary with four keyboard states as keys ("keys", "shift",
+          "alt", "shift+alt"). Each key stores a list of characters.
+
+    trans : dict
+        Contains the transitions probabilities from a given keyboard state
+          to another.
+
+    Example:
+        from augtxt.typo import pressed_shiftalt
+        augm = pressed_shiftalt("Test")
+    """
+    # abort prematurly
+    n_chars = len(word)
+    if n_chars == 1:
+        return word
+
+    # find index of the 1st char
+    i = draw_index(n_chars - 1, loc)
+
+    # find index and keyboard states in keymap
+    idx, state = kbl.find_index(word[i], keymap)
+    # draw new keyboard state, and lookup new char for given idx
+    if idx:
+        newstate = np.random.choice(4, 1, p=trans[state])[0]
+        newstate = tuple(keymap.keys())[newstate]
+        newchar = keymap[newstate][idx]
+        i2 = min(i, n_chars - 1)
+        return word[:i2] + newchar + word[(i2 + 1):]
+    else:
+        return word

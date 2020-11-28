@@ -90,6 +90,21 @@ augm = drop_n_next_twice("Tante", loc=2)
 # Tatte
 ```
 
+
+## Pressed SHIFT, ALT, or SHIFT+ALT
+
+```py
+augm = pressed_shiftalt("Onkel", loc=2)
+# OnKel, On˚el, Onel
+```
+
+```py
+from augtxt.typo import pressed_shiftalt
+import augtxt.keyboard_layouts as kbl
+augm = pressed_shiftalt("Onkel", loc=2, keymap=kbl.macbook_us)
+# OnKel, On˚el, Onel
+```
+
 ## References
 - Lisbach, B., 2011. Linguistisches Identity Matching. Vieweg+Teubner, Wiesbaden. https://doi.org/10.1007/978-3-8348-9791-6
 
