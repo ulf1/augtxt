@@ -6,11 +6,11 @@ import augtxt.typo as typo
 
 
 fn_dict = {
-    'typo.drop_n_next_twice': typo.drop_n_next_twice,
     'typo.swap_consecutive': typo.swap_consecutive,
     'typo.pressed_twice': typo.pressed_twice,
     'typo.drop_char': typo.drop_char,
-    'typo.pressed_shiftalt': typo.pressed_shiftalt,
+    'typo.drop_n_next_twice': typo.drop_n_next_twice,
+    'typo.pressed_shiftalt': typo.pressed_shiftalt
 }
 
 

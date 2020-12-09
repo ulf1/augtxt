@@ -8,7 +8,7 @@ def read(fname):
 
 setup(name='augtxt',
       version='0.1.0',
-      description='yet another text augmentation python package',
+      description='Text augmentation.',
       long_description=read('README.md'),
       long_description_content_type='text/markdown',
       url='http://github.com/ulf1/augtxt',
