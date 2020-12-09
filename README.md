@@ -3,6 +3,8 @@ Yet another text augmentation python package.
 
 ## Table of Contents
 * Usage
+    * [Pipelines](#pipelines)
+    * [Typographical Errors (Tippfehler)](#typographical-errors-tippfehler)
 * Appendix
     * [Installation](#installation)
     * [Commands](#commands)
@@ -20,9 +22,11 @@ import numpy as np
 ## Pipelines
 
 ### Word Augmentation 
+The function `augtxt.augmenters.wordaug` applies different augmentations to a word, and all of its generated variants. The order matters, i.e. the first augmentation functions in the list is applied first, and so forth.
 
 ```py
 from augtxt.augmenters import wordaug
+import augtxt.keyboard_layouts as kbl
 import numpy as np
 from collections import Counter
 
@@ -46,6 +50,11 @@ settings = [
         'p': 0.02,
         'fn': 'typo.drop_char',
         'args': {'loc': ['m', 'e'], 'keep_case': True}
+    },
+    {
+        'p': 0.02,
+        'fn': 'typo.pressed_shiftalt',
+        'args': {'loc': ['b', 'm'], 'keymap': kbl.macbook_us, 'trans': kbl.keyboard_transprob}
     },
 ]
 
@@ -81,22 +90,29 @@ User presses the key not enough (Lisbach, 2011, p.72), the key is broken, finger
 - Drop the 3rd letter: `augtxt.typo.drop_char("Straße", loc=2)` (Result: `Staße`)
 
 
-## Drop character followed by double letter (Vertipper)
+### Drop character followed by double letter (Vertipper)
 Letter is left out, but the following letter is typed twice.
 It's a combination of `augtxt.typo.pressed_twice` and `augtxt.typo.drop_char`.
 
 ```py
+from augtxt.typo import drop_n_next_twice
 augm = drop_n_next_twice("Tante", loc=2)
 # Tatte
 ```
 
 
-## Pressed SHIFT, ALT, or SHIFT+ALT
+### Pressed SHIFT, ALT, or SHIFT+ALT
+Usually `SHFIT` is used to type a capital letter, and `ALT` or `ALT+SHIFT` for less common characters. 
+A typo might occur because these special keys are nor are not pressed in combination with a normal key.
+The function `augtxt.typo.pressed_shiftalt` such errors randomly.
 
 ```py
+from augtxt.typo import pressed_shiftalt
 augm = pressed_shiftalt("Onkel", loc=2)
 # OnKel, On˚el, Onel
 ```
+
+The `keymap` can differ depending on the language and the keyboard layout.
 
 ```py
 from augtxt.typo import pressed_shiftalt
@@ -104,6 +120,23 @@ import augtxt.keyboard_layouts as kbl
 augm = pressed_shiftalt("Onkel", loc=2, keymap=kbl.macbook_us)
 # OnKel, On˚el, Onel
 ```
+
+Further, transition probabilities in case of a typo can be specified
+
+```py
+from augtxt.typo import pressed_shiftalt
+import augtxt.keyboard_layouts as kbl
+
+keyboard_transprob = {
+    "keys": [.0, .75, .2, .05],
+    "shift": [.9, 0, .05, .05],
+    "alt": [.9, .05, .0, .05],
+    "shift+alt": [.3, .35, .35, .0]
+}
+
+augm = pressed_shiftalt("Onkel", loc=2, keymap=kbl.macbook_us, trans=keyboard_transprob)
+```
+
 
 ## References
 - Lisbach, B., 2011. Linguistisches Identity Matching. Vieweg+Teubner, Wiesbaden. https://doi.org/10.1007/978-3-8348-9791-6
@@ -135,7 +168,6 @@ pip install -r requirements-dev.txt --no-cache-dir
 
 Python commands
 
-* Jupyter for the examples: `jupyter lab`
 * Check syntax: `flake8 --ignore=F401 --exclude=$(grep -v '^#' .gitignore | xargs | sed -e 's/ /,/g')`
 * Run Unit Tests: `pytest`
 * Upload to PyPi with twine: `python setup.py sdist && twine upload -r pypi dist/*`
