@@ -4,9 +4,11 @@ import scipy.stats
 import augtxt.keyboard_layouts as kbl
 
 
-def draw_index(n: int, loc: Union[int, float, str]):
+def draw_index(n: int, loc: Union[int, float, str]) -> int:
     """Get index
 
+    Parameters:
+    -----------
     n : int
         upper value from interval [0,n] to draw from
 
@@ -17,6 +19,11 @@ def draw_index(n: int, loc: Union[int, float, str]):
         If 'm', then `binom.rvs(n, p=0.5)`
         If 'e', then `binom.rvs(n, p=0.9)`
         if 'u', then uniform random
+
+    Return:
+    -------
+    int
+        An list index
 
     Examples:
     ---------
@@ -53,6 +60,8 @@ def swap_consecutive(word: str,
                      ) -> str:
     """Swap two consecutive chars (dt. Vertauscher)
 
+    Parameters:
+    -----------
     word : str
         One word token
 
@@ -62,19 +71,25 @@ def swap_consecutive(word: str,
     keep_case : bool  (Default False, i.e. never)
         Enforce the original letter cases on the new string.
 
+    Return:
+    -------
+    str
+        The augmented variant of the input word
+
     Examples:
     ---------
+        from augtxt.typo import swap_consecutive
         swap_consecutive("Kinder", loc=0)
-        iKnder
+        # iKnder
 
         swap_consecutive("Kinder", loc=0, keep_case=True)
-        Iknder
+        # Iknder
 
         np.random.seed(seed=42)
         swap_consecutive("Kinder", loc='middle', keep_case=True)
         swap_consecutive("Kinder", loc='begin', keep_case=True)
         swap_consecutive("Kinder", loc='end', keep_case=True)
-        'Kindre', 'Iknder', 'Kindre'
+        # 'Kindre', 'Iknder', 'Kindre'
     """
     # abort prematurly
     n_chars = len(word)
@@ -108,6 +123,8 @@ def pressed_twice(word: str,
                   ) -> str:
     """A key is pressed twice accidentaly (dt. Einfüger)
 
+    Parameters:
+    -----------
     word : str
         One word token
 
@@ -117,6 +134,15 @@ def pressed_twice(word: str,
     flip_case : bool  (Default False, i.e. never)
         Enforce the letter case of the succeeding charcter.
 
+    Return:
+    -------
+    str
+        The augmented variant of the input word
+
+    Example:
+    --------
+        from augtxt.typo import pressed_twice
+        augm = pressed_twice("Test", loc=['b', 'e'], keep_case=True)
     """
     # abort prematurly
     n_chars = len(word)
@@ -143,6 +169,8 @@ def drop_char(word: str,
               ) -> str:
     """Drop a character (dt. Auslasser)
 
+    Parameters:
+    -----------
     word : str
         One word token
 
@@ -152,6 +180,16 @@ def drop_char(word: str,
     keep_case : bool
         Apply the letter case of the dropped character to the next
           remaining character.
+
+    Return:
+    -------
+    str
+        The augmented variant of the input word
+
+    Example:
+    --------
+        from augtxt.typo import drop_char
+        augm = drop_char("Test", loc='b', keep_case=False)
     """
     # abort prematurly
     n_chars = len(word)
@@ -184,15 +222,27 @@ def drop_n_next_twice(word: str,
     """Letter is left out, but the following letter is typed twice
         (dt. Vertipper)
 
+    Parameters:
+    -----------
     word : str
         One word token
 
     loc : Union[int, float, str]
         see augtxt.typo.draw_index
 
-    keep_case : bool
+    keep_case : bool  (Default: False)
         Apply the letter case of the dropped character to the next
           remaining character.
+
+    Return:
+    -------
+    str
+        The augmented variant of the input word
+
+    Example:
+    --------
+        from augtxt.typo import drop_n_next_twice
+        augm = drop_n_next_twice("Test", loc='u', keep_case=False)
     """
     # abort prematurly
     n_chars = len(word)
@@ -225,6 +275,8 @@ def pressed_shiftalt(word: str,
                      ) -> str:
     """Typo due to pressing or not pressing SHIFT, ALT, or SHIFT+ALT
 
+    Parameters:
+    -----------
     word : str
         One word token
 
@@ -239,7 +291,13 @@ def pressed_shiftalt(word: str,
         Contains the transitions probabilities from a given keyboard state
           to another.
 
+    Return:
+    -------
+    str
+        The augmented variant of the input word
+
     Example:
+    --------
         from augtxt.typo import pressed_shiftalt
         augm = pressed_shiftalt("Test")
     """
