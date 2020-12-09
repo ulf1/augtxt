@@ -114,8 +114,9 @@ augm = pressed_shiftalt("Onkel", loc=2, keymap=kbl.macbook_us)
 ## Installation
 The `augtxt` [git repo](http://github.com/ulf1/augtxt) is available as [PyPi package](https://pypi.org/project/augtxt)
 
-```
+```sh
 pip install augtxt>=0.1.0
+pip install git+ssh://git@github.com/ulf1/augtxt.git
 ```
 
 
