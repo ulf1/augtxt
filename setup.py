@@ -1,16 +1,12 @@
 from setuptools import setup
-
-
-def read(fname):
-    import os
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+import m2r
 
 
 setup(name='augtxt',
       version='0.1.0',
       description='Text augmentation.',
-      long_description=read('README.md'),
-      long_description_content_type='text/markdown',
+      long_description=m2r.parse_from_file('README.md'),
+      long_description_content_type='text/x-rst',
       url='http://github.com/ulf1/augtxt',
       author='Ulf Hamster',
       author_email='554c46@gmail.com',
@@ -22,4 +18,4 @@ setup(name='augtxt',
           'scipy>=1.5.4'
       ],
       python_requires='>=3.6',
-      zip_safe=False)
+      zip_safe=True)
