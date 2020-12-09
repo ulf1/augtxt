@@ -22,7 +22,7 @@ import numpy as np
 ## Pipelines
 
 ### Word Augmentation 
-The function `augtxt.augmenters.wordaug` applies different augmentations to a word, and all of its generated variants. The order matters, i.e. the first augmentation functions in the list is applied first, and so forth.
+The function `augtxt.augmenters.wordaug` applies randomly different augmentations to one word.
 
 ```py
 from augtxt.augmenters import wordaug

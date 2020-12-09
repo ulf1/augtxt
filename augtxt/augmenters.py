@@ -14,7 +14,41 @@ fn_dict = {
 }
 
 
-def wordaug(original: str, settings: List[dict]):
+def wordaug(original: str, settings: List[dict]) -> str:
+    """Apply different augmentation functions to one word
+
+    Parameters:
+    -----------
+    original : str
+
+    settings : List[dict]
+
+    Return:
+    -------
+    str
+        The augmented variant of the input word
+
+    Example:
+    --------
+        from augtxt.augmenters import wordaug
+        from collections import Counter
+        import numpy as np
+        np.random.seed(seed=42)
+
+        settings = [
+            {'p': 0.04, 'fn': 'typo.drop_n_next_twice',
+             'args': {'loc': ['m', 'e'], 'keep_case': True}},
+            {'p': 0.04, 'fn': 'typo.swap_consecutive',
+             'args': {'loc': ['m', 'e'], 'keep_case': True}}]
+
+        tokenseq = ["Dies", "ist", "ein", "Satz", "."]
+
+        n_trials = 1000
+        results = [' '.join([wordaug(word, settings) for word in tokenseq])
+                   for _ in range(n_trials)]
+
+        Counter(results)
+    """
     result = copy.copy(original)
     # loop over all augmentation methods in random order
     for i in np.random.permutation(len(settings)):
