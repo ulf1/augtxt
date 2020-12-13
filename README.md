@@ -22,6 +22,12 @@ import augtxt
 import numpy as np
 ```
 
+Modules
+
+- `augtxt.typo` -- Typographical Errors, i.e. characters are augmented
+- `augtxt.wordsubs` -- Word substitutions, e.g. synonym replacement
+
+
 ## Pipelines
 
 ### Word Augmentation 
