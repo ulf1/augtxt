@@ -3,7 +3,7 @@ import m2r
 
 
 setup(name='augtxt',
-      version='0.1.0',
+      version='0.2.0',
       description='Text augmentation.',
       long_description=m2r.parse_from_file('README.md'),
       long_description_content_type='text/x-rst',
@@ -16,6 +16,9 @@ setup(name='augtxt',
           'setuptools>=40.0.0',
           'numpy>=1.19.0',
           'scipy>=1.5.4'
+      ],
+      scripts=[
+          'scripts/nlptasks_downloader.py'
       ],
       python_requires='>=3.6',
       zip_safe=True)
