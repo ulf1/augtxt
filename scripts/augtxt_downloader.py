@@ -18,6 +18,7 @@ if __name__ == '__main__':
     MAINPATH = f"{str(Path.home())}/augtxt_data"
 
     # Download a fasttext model
+    # see https://fasttext.cc/docs/en/unsupervised-tutorial.html
     if args.fasttext and args.lang:
         PATH = f"{MAINPATH}/fasttext"
         URL = f"https://dl.fbaipublicfiles.com/fasttext/vectors-wiki"
@@ -26,3 +27,7 @@ if __name__ == '__main__':
         os.system(f"wget -O '{PATH}/{ZIPFILE}' '{URL}/{ZIPFILE}'")
         os.system(f"unzip -o -d '{PATH}' '{PATH}/{ZIPFILE}'")
         os.system(f"rm '{PATH}/{ZIPFILE}'")
+    
+    if args.fasttext:
+        print("\nfastext embeddings and vocabulary:", end="")
+        os.system(f"ls -lh {MAINPATH}/fasttext" + "| awk '{print $5,$9}' ")
