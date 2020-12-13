@@ -1,4 +1,5 @@
 [![PyPI version](https://badge.fury.io/py/augtxt.svg)](https://badge.fury.io/py/augtxt)
+[![DOI](https://zenodo.org/badge/315031055.svg)](https://zenodo.org/badge/latestdoi/315031055)
 
 # augtxt -- Text Augmentation
 Yet another text augmentation python package.
