@@ -14,6 +14,7 @@ setup(name='augtxt',
       packages=['augtxt'],
       install_requires=[
           'setuptools>=40.0.0',
+          'm2r>=0.2.1',
           'numpy>=1.19.0',
           'scipy>=1.5.4'
       ],
