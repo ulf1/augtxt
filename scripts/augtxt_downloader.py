@@ -21,13 +21,13 @@ if __name__ == '__main__':
     # see https://fasttext.cc/docs/en/unsupervised-tutorial.html
     if args.fasttext and args.lang:
         PATH = f"{MAINPATH}/fasttext"
-        URL = f"https://dl.fbaipublicfiles.com/fasttext/vectors-wiki"
+        URL = "https://dl.fbaipublicfiles.com/fasttext/vectors-wiki"
         ZIPFILE = f"wiki.{args.lang}.zip"
         os.makedirs(PATH, exist_ok=True)
         os.system(f"wget -O '{PATH}/{ZIPFILE}' '{URL}/{ZIPFILE}'")
         os.system(f"unzip -o -d '{PATH}' '{PATH}/{ZIPFILE}'")
         os.system(f"rm '{PATH}/{ZIPFILE}'")
-    
+
     if args.fasttext:
         print("\nfastext embeddings and vocabulary:", end="")
         os.system(f"ls -lh {MAINPATH}/fasttext" + "| awk '{print $5,$9}' ")
