@@ -218,6 +218,17 @@ synonyms = augtxt.wordsubs.lookup_buffer_fasttext(vocab, lang='de')
 
 ### Using pseudo-synonym dictionaries to augment tokenized sequences
 
+```py
+import itertools
+import augtxt.wordsubs
+
+original_seqs = [["Das", "ist", "ein", "Satz", "."], ["Dies", "ist", "ein", "anderer", "Satz", "."]]
+vocab = set(itertools.chain(*original_seqs))
+
+synonyms = augtxt.wordsubs.lookup_buffer_fasttext(vocab, lang='de')
+augmented_seqs = augtxt.wordsubs.synonym_replacement(original_seqs, synonyms)
+```
+
 
 
 ## References
@@ -243,8 +254,8 @@ Install a virtual environment
 python3.6 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
-pip install -r requirements.txt --no-cache-dir
-pip install -r requirements-dev.txt --no-cache-dir
+pip install -r requirements.txt --use-feature=2020-resolver
+pip install -r requirements-dev.txt --use-feature=2020-resolver
 ```
 
 (If your git repo is stored in a folder with whitespaces, then don't use the subfolder `.venv`. Use an absolute path without whitespaces.)
