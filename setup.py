@@ -21,7 +21,7 @@ setup(name='augtxt',
           'numpy>=1.19.0',
           'scipy>=1.5.4',
           'fasttext>=0.9.2',
-          'kshingle>=0.6.0'
+          'kshingle>=0.6.1'
       ],
       scripts=[
           'scripts/nlptasks_downloader.py'

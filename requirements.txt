@@ -2,4 +2,4 @@
 scipy>=1.5.4
 numpy>=1.19.0
 fasttext>=0.9.2
-kshingle>=0.6.0
+kshingle>=0.6.1
