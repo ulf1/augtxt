@@ -17,6 +17,7 @@ setup(name='augtxt',
           'm2r>=0.2.1',
           'numpy>=1.19.0',
           'scipy>=1.5.4',
+          'fasttext>=0.9.2',
           'kshingle>=0.6.0'
       ],
       scripts=[
