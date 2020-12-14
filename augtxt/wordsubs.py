@@ -119,3 +119,34 @@ def pseudo_synonyms_fasttext(words: List[str], lang: str,
 
     # done
     return synonyms
+
+
+def lookup_buffer_fasttext(words: List[str], lang: str,
+                           path_buffer: Optional[str] = FASTTEXT_BUFFER
+                           ) -> Dict[str, List[str]]:
+    """Lookup pseudo-synonyms from local buffer
+
+    Apply this function if you don't want to call fastText at all
+      by calling `pseudo_synonyms_fasttext`
+    """
+    # load buffer file
+    with open(os.path.join(path_buffer, f"{lang}.json"), 'r') as fp:
+        buffer = json.load(fp)
+
+    # init output variable
+    synonyms = {}
+
+    # loop over words
+    for word in words:
+        # convert to lower case
+        word = word.lower()
+        # lookup word from buffer
+        if word in buffer.keys():
+            synonyms[word] = buffer[word]
+
+    # clean up explicitly
+    del buffer
+    gc.collect()
+
+    # done
+    return synonyms

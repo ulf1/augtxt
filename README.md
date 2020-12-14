@@ -203,6 +203,16 @@ We prefer the term **pseudo-synonyms** because the results can be considered to 
 }
 ```
 
+The function `augtxt.wordsubs.pseudo_synonyms_fasttext` stores all pseudo-synonyms inside a buffer file on your HDD in the background. In order to call this buffer file directly, and to avoid preprocessing with fastText again, you can use the following function:
+
+```py
+import itertools
+import augtxt.wordsubs
+token_seqs = [["Das", "ist", "ein", "Satz", "."], ["Dies", "ist", "ein", "anderer", "Satz", "."]]
+vocab = set(itertools.chain(*token_seqs))
+synonyms = augtxt.wordsubs.lookup_buffer_fasttext(vocab, lang='de')
+```
+
 **Please note**: When using the function `augtxt.wordsubs.pseudo_synonyms_fasttext` with [fastText pretrained models](https://fasttext.cc/docs/en/pretrained-vectors.html), then (1) you have to cite [Bojanowski et. al. (2017)](https://arxiv.org/abs/1607.04606), and (2) the subsequently derived data, e.g. the augmented examples, fall under the [CC BY-SA 3.0 license](https://fasttext.cc/docs/en/pretrained-vectors.html#license).
 
 
@@ -221,7 +231,7 @@ We prefer the term **pseudo-synonyms** because the results can be considered to 
 The `augtxt` [git repo](http://github.com/ulf1/augtxt) is available as [PyPi package](https://pypi.org/project/augtxt)
 
 ```sh
-pip install augtxt>=0.1.0
+pip install augtxt>=0.2.0
 pip install git+ssh://git@github.com/ulf1/augtxt.git
 ```
 
