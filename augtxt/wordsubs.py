@@ -12,7 +12,7 @@ FASTTEXT_BUFFER = f"{str(Path.home())}/augtxt_data/pseudo_synonyms/fasttext"
 FASTTEXT_MODELS = f"{str(Path.home())}/augtxt_data/fasttext"
 
 
-def lookup_synonyms_fasttext(words: List[str], lang: str,
+def pseudo_synonyms_fasttext(words: List[str], lang: str,
                              max_neighbors: Optional[int] = 100,
                              min_vector_score: Optional[float] = 0.65,
                              max_shingle_score: Optional[float] = 0.35,

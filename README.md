@@ -176,7 +176,7 @@ vocab = set(itertools.chain(*token_seqs))
 ```py
 import augtxt.wordsubs
 
-synonyms = augtxt.wordsubs.lookup_synonyms_fasttext(
+synonyms = augtxt.wordsubs.pseudo_synonyms_fasttext(
     vocab, lang='de',
     max_neighbors=25, 
     min_vector_score=0.65,  # Jaccard similarity btw. fastText vectors
@@ -203,7 +203,7 @@ We prefer the term **pseudo-synonyms** because the results can be considered to 
 }
 ```
 
-**Please note**: When using the function `augtxt.wordsubs.lookup_synonyms_fasttext` with [fastText pretrained models](https://fasttext.cc/docs/en/pretrained-vectors.html), then (1) you have to cite [Bojanowski et. al. (2017)](https://arxiv.org/abs/1607.04606), and (2) the subsequently derived data, e.g. the augmented examples, fall under the [CC BY-SA 3.0 license](https://fasttext.cc/docs/en/pretrained-vectors.html#license).
+**Please note**: When using the function `augtxt.wordsubs.pseudo_synonyms_fasttext` with [fastText pretrained models](https://fasttext.cc/docs/en/pretrained-vectors.html), then (1) you have to cite [Bojanowski et. al. (2017)](https://arxiv.org/abs/1607.04606), and (2) the subsequently derived data, e.g. the augmented examples, fall under the [CC BY-SA 3.0 license](https://fasttext.cc/docs/en/pretrained-vectors.html#license).
 
 
 ### Using pseudo-synonym dictionaries to augment tokenized sequences
