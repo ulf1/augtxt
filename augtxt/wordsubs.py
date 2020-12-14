@@ -1,10 +1,13 @@
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Union
 from pathlib import Path
 import os
 import json
 import fasttext
 import kshingle as ks
 import gc
+import scipy.stats
+import copy
+from .typo import draw_index
 
 
 # default settings
@@ -150,3 +153,89 @@ def lookup_buffer_fasttext(words: List[str], lang: str,
 
     # done
     return synonyms
+
+
+def synonym_replacement(original_seqs: List[List[str]],
+                        synonyms: Dict[str, List[str]],
+                        num_augm: int,
+                        min_repl: Union[int, float] = 1,
+                        max_repl: Union[int, float] = 1.0,
+                        loc: Union[int, float, str] = 'u',
+                        keep_case: Optional[bool] = False
+                        ) -> List[List[List[str]]]:
+    """Replace words with synonyms
+
+    original_seqs: List[List[str]],
+        A list of tokenized sequences.
+
+    synonyms: Dict[str, List[str]]
+        Synonym dictionary
+
+    num_augm: int
+        Target number of random augmentations per sequence
+
+    min_repl: Union[int, float] = 1
+        Minimum number of replaced words
+
+    max_repl: Union[int, float] = 1.0
+        Maximum number of replaced words
+
+    loc: Union[int, float, str] = 'u'
+        see augtxt.typo.draw_index
+
+    keep_case : bool  (Default False, i.e. never)
+        Enforce the original letter cases on the new string.
+    """
+    augmented_seqs = []
+    for seq in original_seqs:
+        # get the number of tokens per sequences
+        n_seqlen = len(seq)
+
+        if n_seqlen >= 1:
+            # determine the number of words to replace
+            if isinstance(min_repl, int):
+                n_low = max(1, min(n_seqlen, min_repl))
+            elif isinstance(min_repl, float):
+                n_low = max(1, int(n_seqlen * min_repl))
+
+            if isinstance(max_repl, int):
+                n_high = max(n_low, min(n_seqlen, max_repl)) + 1
+            elif isinstance(max_repl, float):
+                n_high = max(n_low, int(n_seqlen * max_repl)) + 1
+
+            num_repl = scipy.stats.randint.rvs(n_low, n_high)
+        else:
+            num_repl = 0
+
+        # Generate augmentations for the current sentence
+        curaug = []
+        for _ in range(num_augm):
+            # copy original seqs
+            tmpseq = copy.copy(seq)
+            # pick a token randomly num_repl times
+            for _ in range(num_repl):
+                i = draw_index(n_seqlen - 1, loc=loc)
+                # memorize if it's a capital letter
+                if keep_case:
+                    iscap = seq[i].isupper()
+                # get synonyms (Use the orginal sequencen `seq`!)
+                word = seq[i].lower()
+                if word in synonyms.keys():  # if the word is in the dict
+                    syns = synonyms[word]
+                    if syns:  # if there are any synonyms
+                        # pick random synonym (And store into `tmpseq`)
+                        j = scipy.stats.randint.rvs(0, len(syns))
+                        tmpseq[i] = syns[j]
+                        # transform capital letter
+                        if keep_case:
+                            if iscap:
+                                tmpseq[i] = tmpseq[i][0].upper() + tmpseq[i][1:]
+            # save results
+            curaug.append(tmpseq)
+
+        # save results
+        augmented_seqs.append(curaug)
+
+    # done
+    return augmented_seqs
+

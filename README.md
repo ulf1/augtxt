@@ -225,8 +225,15 @@ import augtxt.wordsubs
 original_seqs = [["Das", "ist", "ein", "Satz", "."], ["Dies", "ist", "ein", "anderer", "Satz", "."]]
 vocab = set(itertools.chain(*original_seqs))
 
-synonyms = augtxt.wordsubs.lookup_buffer_fasttext(vocab, lang='de')
-augmented_seqs = augtxt.wordsubs.synonym_replacement(original_seqs, synonyms)
+synonyms = augtxt.wordsubs.lookup_buffer_fasttext(
+    vocab, lang='de')
+
+augmented_seqs = augtxt.wordsubs.synonym_replacement(
+    original_seqs, synonyms, num_augm=10)
+
+# check results for 1st sentence
+for s in augmented_seqs[0]:
+    print(s)
 ```
 
 
