@@ -217,19 +217,22 @@ synonyms = augtxt.wordsubs.lookup_buffer_fasttext(vocab, lang='de')
 
 
 ### Using pseudo-synonym dictionaries to augment tokenized sequences
+It is recommend to filter `vocab` further. For example, PoS tag the sequences and only augment VERB and NOUN tokens.
 
 ```py
 import itertools
 import augtxt.wordsubs
+import numpy as np
 
 original_seqs = [["Das", "ist", "ein", "Satz", "."], ["Dies", "ist", "ein", "anderer", "Satz", "."]]
-vocab = set(itertools.chain(*original_seqs))
+vocab = set([s.lower() for s in itertools.chain(*original_seqs) if len(s) > 1])
 
 synonyms = augtxt.wordsubs.lookup_buffer_fasttext(
     vocab, lang='de')
 
+np.random.seed(42)
 augmented_seqs = augtxt.wordsubs.synonym_replacement(
-    original_seqs, synonyms, num_augm=10)
+    original_seqs, synonyms, num_augm=10, keep_case=True)
 
 # check results for 1st sentence
 for s in augmented_seqs[0]:
