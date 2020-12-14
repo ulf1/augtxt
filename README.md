@@ -254,8 +254,8 @@ Install a virtual environment
 python3.6 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
-pip install -r requirements.txt --use-feature=2020-resolver
-pip install -r requirements-dev.txt --use-feature=2020-resolver
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 (If your git repo is stored in a folder with whitespaces, then don't use the subfolder `.venv`. Use an absolute path without whitespaces.)
