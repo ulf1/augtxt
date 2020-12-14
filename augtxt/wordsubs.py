@@ -8,8 +8,8 @@ import gc
 
 
 # default settings
-PATH_BUFFER = f"{str(Path.home())}/augtxt_data/fasttext-buffer"
-PATH_FASTTEXT = f"{str(Path.home())}/augtxt_data/fasttext"
+FASTTEXT_BUFFER = f"{str(Path.home())}/augtxt_data/pseudo_synonyms/fasttext"
+FASTTEXT_MODELS = f"{str(Path.home())}/augtxt_data/fasttext"
 
 
 def lookup_synonyms_fasttext(words: List[str], lang: str,
@@ -18,10 +18,47 @@ def lookup_synonyms_fasttext(words: List[str], lang: str,
                              max_shingle_score: Optional[float] = 0.35,
                              kmax: Optional[int] = 8,
                              n_max_wildcards: Optional[int] = None,
-                             path_buffer: Optional[str] = PATH_BUFFER,
-                             path_fasttext: Optional[str] = PATH_FASTTEXT
+                             path_buffer: Optional[str] = FASTTEXT_BUFFER,
+                             path_fasttext: Optional[str] = FASTTEXT_MODELS
                              ) -> Dict[str, List[str]]:
-    """Lookup synonyms for a given list of words
+    """Lookup pseudo-synonyms from pretrained fastText embedding for a given
+         list of words.
+
+    Parameters:
+    -----------
+    words: List[str]
+        A list of words, or resp. a vocabulary list. Large word lists are
+          strongly recommended due to the huge fastText model overhead.
+
+    lang: str
+        The fastText language code.
+        See https://fasttext.cc/docs/en/pretrained-vectors.html
+
+    max_neighbors: Optional[int] = 100
+        The number of neighbors to return from the fastText embedding. It is
+          also the maximum number of possible pseudo-synonymns.
+
+    min_vector_score: Optional[float] = 0.65
+        The smallest acceptable cosine similarity score between our word
+          and nearest neighbor in fastText's embedding
+
+    max_shingle_score: Optional[float] = 0.35
+        The highest acceptable jaccard similarity score between the k-shingle
+          representation of our word and the found nearest neighbors
+
+    kmax: Optional[int] = 8
+        k-shingling parameter k
+
+    n_max_wildcards: Optional[int] = None
+        k-shingling parameter for the number of wildcards per shingle
+
+    path_buffer: Optional[str] = FASTTEXT_BUFFER
+        The folder where to dump buffered pseudo-synonyms for later usage.
+          The default is `$HOME/augtxt_data/pseudo_synonyms/fasttext`
+
+    path_fasttext: Optional[str] = FASTTEXT_MODELS
+        The folder where pretrained fastText models are stored.
+          The default is `$HOME/augtxt_data/fasttext`
     """
     # create buffer folder if not exist
     os.makedirs(path_buffer, exist_ok=True)
@@ -35,8 +72,14 @@ def lookup_synonyms_fasttext(words: List[str], lang: str,
 
     # load fasttext model
     print("[INFO] It takes several minutes to load a FastText model")
-    model = fasttext.load_model(
-        os.path.join(path_fasttext, f"wiki.{lang}.bin"))
+    filepath = os.path.join(path_fasttext, f"wiki.{lang}.bin")
+    try:
+        model = fasttext.load_model(filepath)
+    except Exception:
+        raise Exception((
+            f"The file '{filepath}' is missing.\n"
+            "Make sure that you downloaded the pretrained models, e.g.\n"
+            "  augtxt_downloader.py --fasttext --lang=de"))
 
     # init output variable
     synonyms = {}
