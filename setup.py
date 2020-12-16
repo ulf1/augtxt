@@ -7,7 +7,7 @@ def read(fname):
 
 
 setup(name='augtxt',
-      version='0.2.0',
+      version='0.2.1',
       description='Text augmentation.',
       # long_description=read('README.md'),
       # long_description_content_type='text/markdown',
@@ -24,7 +24,7 @@ setup(name='augtxt',
           'kshingle>=0.6.1'
       ],
       scripts=[
-          'scripts/nlptasks_downloader.py'
+          'scripts/augtxt_downloader.py'
       ],
       python_requires='>=3.6',
       zip_safe=True)
