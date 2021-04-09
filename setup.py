@@ -1,16 +1,21 @@
 from setuptools import setup
-import os
+import pypandoc
 
 
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+def get_version(path):
+    with open(path, "r") as fp:
+        lines = fp.read()
+    for line in lines.split("\n"):
+        if line.startswith('__version__'):
+            delim = '"' if '"' in line else "'"
+            return line.split(delim)[1]
+    raise RuntimeError("Unable to find version string.")
 
 
 setup(name='augtxt',
-      version='0.2.1',
+      version=get_version("augtxt/__init__.py"),
       description='Text augmentation.',
-      # long_description=read('README.md'),
-      # long_description_content_type='text/markdown',
+      long_description=pypandoc.convert('README.md', 'rst'),
       url='http://github.com/ulf1/augtxt',
       author='Ulf Hamster',
       author_email='554c46@gmail.com',
