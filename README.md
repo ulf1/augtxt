@@ -252,7 +252,7 @@ for s in augmented_seqs[0]:
 The `augtxt` [git repo](http://github.com/ulf1/augtxt) is available as [PyPi package](https://pypi.org/project/augtxt)
 
 ```sh
-pip install augtxt>=0.2.0
+pip install augtxt>=0.2.3
 pip install git+ssh://git@github.com/ulf1/augtxt.git
 ```
 
