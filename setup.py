@@ -31,4 +31,4 @@ setup(name='augtxt',
           'scripts/augtxt_downloader.py'
       ],
       python_requires='>=3.6',
-      zip_safe=True)
+      zip_safe=False)
