@@ -1,5 +1,4 @@
 from setuptools import setup
-import pypandoc
 
 
 def get_version(path):
@@ -15,14 +14,13 @@ def get_version(path):
 setup(name='augtxt',
       version=get_version("augtxt/__init__.py"),
       description='Text augmentation.',
-      long_description=pypandoc.convert('README.md', 'rst'),
+      long_description='README.rst',
       url='http://github.com/ulf1/augtxt',
       author='Ulf Hamster',
       author_email='554c46@gmail.com',
       license='Apache License 2.0',
       packages=['augtxt'],
       install_requires=[
-          'setuptools>=40.0.0',
           'numpy>=1.19.0',
           'scipy>=1.5.4',
           'fasttext>=0.9.2',

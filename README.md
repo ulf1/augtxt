@@ -1,5 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/augtxt.svg)](https://badge.fury.io/py/augtxt)
 [![DOI](https://zenodo.org/badge/315031055.svg)](https://zenodo.org/badge/latestdoi/315031055)
+[![augtxt](https://snyk.io/advisor/python/augtxt/badge.svg)](https://snyk.io/advisor/python/augtxt)
 
 # augtxt -- Text Augmentation
 Yet another text augmentation python package.
@@ -252,7 +253,7 @@ for s in augmented_seqs[0]:
 The `augtxt` [git repo](http://github.com/ulf1/augtxt) is available as [PyPi package](https://pypi.org/project/augtxt)
 
 ```sh
-pip install augtxt>=0.2.0
+pip install augtxt>=0.2.3
 pip install git+ssh://git@github.com/ulf1/augtxt.git
 ```
 
@@ -274,6 +275,7 @@ Python commands
 
 * Check syntax: `flake8 --ignore=F401 --exclude=$(grep -v '^#' .gitignore | xargs | sed -e 's/ /,/g')`
 * Run Unit Tests: `pytest`
+* Create README.rst: `pandoc README.md --from markdown --to rst -s -o README.rst`
 * Upload to PyPi with twine: `python setup.py sdist && twine upload -r pypi dist/*`
 
 Clean up 
