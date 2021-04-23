@@ -22,7 +22,6 @@ setup(name='augtxt',
       license='Apache License 2.0',
       packages=['augtxt'],
       install_requires=[
-          'setuptools>=40.0.0',
           'numpy>=1.19.0',
           'scipy>=1.5.4',
           'fasttext>=0.9.2',
