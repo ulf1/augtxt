@@ -1,5 +1,3 @@
-import numpy as np
-
 
 def find_index(c: str, keymap: dict) -> (int, str):
     """Find index
