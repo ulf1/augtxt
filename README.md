@@ -2,6 +2,7 @@
 [![DOI](https://zenodo.org/badge/315031055.svg)](https://zenodo.org/badge/latestdoi/315031055)
 [![augtxt](https://snyk.io/advisor/python/augtxt/badge.svg)](https://snyk.io/advisor/python/augtxt)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/ulf1/augtxt.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ulf1/augtxt/alerts/)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/ulf1/augtxt.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ulf1/augtxt/context:python)
 [![deepcode](https://www.deepcode.ai/api/gh/badge?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwbGF0Zm9ybTEiOiJnaCIsIm93bmVyMSI6InVsZjEiLCJyZXBvMSI6ImF1Z3R4dCIsImluY2x1ZGVMaW50IjpmYWxzZSwiYXV0aG9ySWQiOjI5NDUyLCJpYXQiOjE2MTk1MzM2MDl9.oMbAK-GpCDHKl7Q8f1v5j-7azxpkeQVSd8-ELlbboA8)](https://www.deepcode.ai/app/gh/ulf1/augtxt/_/dashboard?utm_content=gh%2Fulf1%2Faugtxt)
 
 # augtxt -- Text Augmentation
