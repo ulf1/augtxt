@@ -1,6 +1,7 @@
 [![PyPI version](https://badge.fury.io/py/augtxt.svg)](https://badge.fury.io/py/augtxt)
 [![DOI](https://zenodo.org/badge/315031055.svg)](https://zenodo.org/badge/latestdoi/315031055)
 [![augtxt](https://snyk.io/advisor/python/augtxt/badge.svg)](https://snyk.io/advisor/python/augtxt)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/ulf1/augtxt.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ulf1/augtxt/alerts/)
 
 # augtxt -- Text Augmentation
 Yet another text augmentation python package.
@@ -275,8 +276,14 @@ Python commands
 
 * Check syntax: `flake8 --ignore=F401 --exclude=$(grep -v '^#' .gitignore | xargs | sed -e 's/ /,/g')`
 * Run Unit Tests: `pytest`
-* Create README.rst: `pandoc README.md --from markdown --to rst -s -o README.rst`
-* Upload to PyPi with twine: `python setup.py sdist && twine upload -r pypi dist/*`
+
+Publish
+
+```sh
+pandoc README.md --from markdown --to rst -s -o README.rst
+python setup.py sdist 
+twine upload -r pypi dist/*
+```
 
 Clean up 
 
