@@ -28,10 +28,10 @@ setup(name='augtxt',
       license='Apache License 2.0',
       packages=['augtxt'],
       install_requires=[
-          'numpy>=1.19.0',
-          'scipy>=1.5.4',
-          'fasttext>=0.9.2',
-          'kshingle>=0.6.1'
+          'numpy>=1.19.0,<2',
+          'scipy>=1.5.4,<2',
+          'fasttext>=0.9.2,<1',
+          'kshingle>=0.6.1,<1'
       ],
       scripts=[
           'scripts/augtxt_downloader.py'
