@@ -13,6 +13,7 @@ Yet another text augmentation python package.
         * [`wordaug` - Word Augmentations](#word-augmentations)
         * [`sentaug` - Sentence Augmentations](#sentence-augmentations)
     * [`augtxt.typo` - Typographical Errors](#typographical-errors-tippfehler)
+    * [`augtxt.punct` - Interpunctation Errors](#interpunctation-errors-zeichensetzungsfehler)
     * [`augtxt.wordsubs` - Word substitutions](#word-substitutions)
 * Appendix
     * [Installation](#installation)
@@ -192,6 +193,21 @@ keyboard_transprob = {
 }
 
 augm = pressed_shiftalt("Onkel", loc=2, keymap=kbl.macbook_us, trans=keyboard_transprob)
+```
+
+
+## Interpunctation Errors (Zeichensetzungsfehler)
+
+### Remove PUNCT and COMMA tokens
+The PUNCT (`.?!;:`) and COMMA (`,`) tokens carry *syntatic* information.
+An use case 
+
+```py
+import augtxt.punct
+text = ("Die Lehrerin [MASK] einen Roman. "
+        "Die Schülerin [MASK] ein Aufsatz, der sehr [MASK] war.")
+augmented = augtxt.punct.remove_syntaxinfo(text)
+# 'Die Lehrerin [MASK] einen Roman Die Schülerin [MASK] ein Aufsatz der sehr [MASK] war'
 ```
 
 

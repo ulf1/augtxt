@@ -2,6 +2,7 @@
 
   * Sentence augementations
   * Demo notebooks added
+  * interpunction augmentations
 
 # 0.2.5 / 2021-08-25
 
