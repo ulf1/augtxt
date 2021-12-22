@@ -211,6 +211,24 @@ augmented = augtxt.punct.remove_syntaxinfo(text)
 ```
 
 
+### Merge two consequitive words
+The function `augtxt.punct.merge_words` removes randomly whitespace or hyphens between words, and transform the second word to lower case.
+
+```py
+import augtxt.punct
+
+text = "Die Bindestrich-Wörter sind da."
+
+np.random.seed(seed=23)
+augmented = augtxt.punct.merge_words(text, num_aug=1)
+assert augmented == 'Die Bindestrich-Wörter sindda.'
+
+np.random.seed(seed=1)
+augmented = augtxt.punct.merge_words(text, num_aug=1)
+assert augmented == 'Die Bindestrichwörter sind da.'
+```
+
+
 ## Word substitutions
 The `augtxt.wordsubs` module is about replacing specific strings, e.g. words, morphemes, named entities, abbreviations, etc.
 
