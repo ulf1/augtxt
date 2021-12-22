@@ -1,3 +1,8 @@
+# 0.3.0 / 2021-12/22
+
+  * Sentence augementations
+  * Demo notebooks added
+
 # 0.2.5 / 2021-08-25
 
   * German keyboard layout added
