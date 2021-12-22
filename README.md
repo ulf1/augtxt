@@ -10,6 +10,8 @@ Yet another text augmentation python package.
 ## Table of Contents
 * Usage
     * [`augtxt.augmenters` - Pipelines](#pipelines)
+        * [`wordaug` - Word Augmentations](#word-augmentations)
+        * [`sentaug` - Sentence Augmentations](#sentence-augmentations)
     * [`augtxt.typo` - Typographical Errors](#typographical-errors-tippfehler)
     * [`augtxt.wordsubs` - Word substitutions](#word-substitutions)
 * Appendix
@@ -29,8 +31,10 @@ import numpy as np
 
 ## Pipelines
 
-### Word Augmentation 
+### Word Augmentations
 The function `augtxt.augmenters.wordaug` applies randomly different augmentations to one word.
+The result is a simulated distribution of possible word augmentations, e.g. how are possible typological errors distributed for a specific original word.
+The procedure does **not guarantee** that the original word will be augmented.
 
 ```py
 from augtxt.augmenters import wordaug
@@ -73,6 +77,49 @@ for i in range(1000):
     newwords.append( wordaug(word, settings) )
 
 Counter(newwords)
+```
+
+
+### Sentence Augmentations
+The function `augtxt.augmenters.sentaug` applies randomly different augmentations to 
+a) at least one word in a sentence, or
+b) not more than a certain percentage of words in a sentence.
+The procedure **guarantees** that the sentence is augmented.
+
+The functions also allows to exclude specific strings from augmentation (e.g. `exclude=("[MASK]", "[UNK]")`). However, these strings **cannot** include the special characters ` .,;:!?` (incl. whitespace).
+
+```py
+from augtxt.augmenters import wordaug
+import augtxt.keyboard_layouts as kbl
+import numpy as np
+
+settings = [
+    {
+        'weight': 2, 'fn': 'typo.drop_n_next_twice',
+        'args': {'loc': 'u', 'keep_case': True}
+    },
+    {
+        'weight': 2, 'fn': 'typo.swap_consecutive', 
+        'args': {'loc': 'u', 'keep_case': True}},
+    {
+        'weight': 1, 'fn': 'typo.pressed_twice',
+        'args': {'loc': 'u', 'keep_case': True}
+    },
+    {
+        'weight': 1, 'fn': 'typo.drop_char',
+        'args': {'loc': 'u', 'keep_case': True}
+    },
+    {
+        'weight': 1, 'fn': 'typo.pressed_shiftalt',
+        'args': {'loc': ['b', 'm']}
+    },
+]
+
+np.random.seed(seed=42)
+exclude = ["[MASK]", "[UNK]"]
+sentence = 'Die Lehrerin [MASK] einen Roman.'
+augmentations = sentaug(sentence, settings=settings, exclude=exclude, num_augmentations=10, pmax=0.1)
+assert len(augmentations) == 10
 ```
 
 
@@ -269,6 +316,7 @@ source .venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
+pip install -r requirements-demo.txt
 ```
 
 (If your git repo is stored in a folder with whitespaces, then don't use the subfolder `.venv`. Use an absolute path without whitespaces.)
