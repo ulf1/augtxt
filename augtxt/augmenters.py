@@ -122,15 +122,15 @@ def sentaug(original: str,
         augm = sentaug(original, settings=settings, exclude=exclude, 2, 0.1)
     """
     # tokenization
-    if isinstance(original, str):
-        token = [t for t in re.split('[ .,;:!?]', original) if len(t) > 0]
-    elif isinstance(original, (tuple, list)):
-        token = original
-    else:
-        raise Exception(f"type(orginal)={type(original)} is not supported")
+    # if isinstance(original, str):
+    token = [t for t in re.split('[ .,;:!?]', original) if len(t) > 0]
+    # elif isinstance(original, (tuple, list)):
+    #     token = original
+    # else:
+    #     raise Exception(f"type(orginal)={type(original)} is not supported")
 
-    if len(token) == 0:
-        return []
+    # if len(token) == 0:
+    #     return []
 
     # number of words to augment
     num_aug = max(int(len(token) * pmax), 1)
