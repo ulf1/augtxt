@@ -1,3 +1,7 @@
+# 0.4.0 / 2021-12-24
+
+  * fasttext removed
+
 # 0.3.1 / 2021-12-24
 
   * Deprecation warning that fasttext will be removed
