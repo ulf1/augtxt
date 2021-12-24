@@ -12,7 +12,7 @@ import warnings
 
 warnings.warn((
     "fasttext, wordsubs.pseudo_synonyms_fasttext, lookup_buffer_fasttext are"
-    " removed in v0.4.0 but are available in a new package `w2v-synonyms`.",
+    " removed in v0.4.0 but are available in a new package `w2v-synonyms`."),
     PendingDeprecationWarning
 )
 
