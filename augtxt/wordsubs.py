@@ -8,7 +8,13 @@ import gc
 import scipy.stats
 import copy
 import itertools
+import warnings
 
+warnings.warn((
+    "fasttext, wordsubs.pseudo_synonyms_fasttext, lookup_buffer_fasttext are"
+    " removed in v0.4.0 but are available in a new package `w2v-synonyms`."),
+    PendingDeprecationWarning
+)
 
 # default settings
 FASTTEXT_BUFFER = f"{str(Path.home())}/augtxt_data/pseudo_synonyms/fasttext"

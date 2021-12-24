@@ -234,13 +234,13 @@ assert augmented == 'Die Bindestrichwörter sind da.'
 The `augtxt.wordsubs` module is about replacing specific strings, e.g. words, morphemes, named entities, abbreviations, etc.
 
 
-### Pseudo-synonyms from pretrained word embedding
+### ~~Pseudo-synonyms from pretrained word embedding~~ (to be removed in 0.4.0)
 The **semantic similarity** between two words can be measured with a similarity metric (e.g. jaccard score, cosine similarity) between the corresponding **word vectors** from pretrained **word embeddings** (e.g. word2vec, GloVe, and fastText).
 
 Furthermore, we compute the character-level (non-semantically) k-shingle based jaccard similarity to exclude **near duplicates**, or resp. to favor *semantic similar words with a different spelling*.
 
 
-#### fastText
+#### ~~fastText~~ (to be removed in 0.4.0)
 (1) Download a language-specifc pretrained fastText embedding, e.g. 
 
 ```sh
