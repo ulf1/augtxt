@@ -91,7 +91,7 @@ The procedure **guarantees** that the sentence is augmented.
 The functions also allows to exclude specific strings from augmentation (e.g. `exclude=("[MASK]", "[UNK]")`). However, these strings **cannot** include the special characters ` .,;:!?` (incl. whitespace).
 
 ```py
-from augtxt.augmenters import wordaug
+from augtxt.augmenters import sentaug
 import augtxt.keyboard_layouts as kbl
 import numpy as np
 
