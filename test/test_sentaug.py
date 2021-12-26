@@ -8,7 +8,7 @@ settings = [
         'args': {'loc': 'u', 'keep_case': True}
     },
     {
-        'weight': 2, 'fn': 'typo.swap_consecutive', 
+        'weight': 2, 'fn': 'typo.swap_consecutive',
         'args': {'loc': 'u', 'keep_case': True}},
     {
         'weight': 1, 'fn': 'typo.pressed_twice',
@@ -25,6 +25,7 @@ settings = [
         'trans': kbl.keyboard_transprob
     },
 ]
+
 
 def test1():
     np.random.seed(seed=42)

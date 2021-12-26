@@ -33,12 +33,13 @@ settings = [
     },
 ]
 
+
 def test1():
     np.random.seed(seed=42)
     word = "Blume"
     newwords = []
     for i in range(100):
-        newwords.append( wordaug(word, settings) )
+        newwords.append(wordaug(word, settings))
     assert list(dict(Counter(newwords)).keys()) == [
         'Blume', 'Blum', 'Bllume', 'Bmme', 'Blumee', 'Bblum',
         'BlUme', 'Bluee', 'Bluem', 'Buume', 'Blmme']
