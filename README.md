@@ -68,7 +68,9 @@ settings = [
     {
         'p': 0.02,
         'fn': 'typo.pressed_shiftalt',
-        'args': {'loc': ['b', 'm'], 'keymap': kbl.macbook_us, 'trans': kbl.keyboard_transprob}
+        'args': {'loc': ['b', 'm']},
+        'keymap': kbl.macbook_us,
+        'trans': kbl.keyboard_transprob
     },
 ]
 
@@ -113,7 +115,9 @@ settings = [
     },
     {
         'weight': 1, 'fn': 'typo.pressed_shiftalt',
-        'args': {'loc': ['b', 'm']}
+        'args': {'loc': ['b', 'm']},
+        'keymap': kbl.qwertz_de,
+        'trans': kbl.keyboard_transprob
     },
 ]
 
