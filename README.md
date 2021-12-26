@@ -68,7 +68,9 @@ settings = [
     {
         'p': 0.02,
         'fn': 'typo.pressed_shiftalt',
-        'args': {'loc': ['b', 'm'], 'keymap': kbl.macbook_us, 'trans': kbl.keyboard_transprob}
+        'args': {'loc': ['b', 'm']},
+        'keymap': kbl.macbook_us,
+        'trans': kbl.keyboard_transprob
     },
 ]
 
@@ -91,7 +93,7 @@ The procedure **guarantees** that the sentence is augmented.
 The functions also allows to exclude specific strings from augmentation (e.g. `exclude=("[MASK]", "[UNK]")`). However, these strings **cannot** include the special characters ` .,;:!?` (incl. whitespace).
 
 ```py
-from augtxt.augmenters import wordaug
+from augtxt.augmenters import sentaug
 import augtxt.keyboard_layouts as kbl
 import numpy as np
 
@@ -113,7 +115,9 @@ settings = [
     },
     {
         'weight': 1, 'fn': 'typo.pressed_shiftalt',
-        'args': {'loc': ['b', 'm']}
+        'args': {'loc': ['b', 'm']},
+        'keymap': kbl.qwertz_de,
+        'trans': kbl.keyboard_transprob
     },
 ]
 
