@@ -1,3 +1,7 @@
+# 0.4.2 / 2022-01-09
+
+  * Word order errors added
+
 # 0.4.0 / 2021-12-24
 
   * fasttext removed

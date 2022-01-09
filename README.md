@@ -15,6 +15,7 @@ Yet another text augmentation python package.
         * [`sentaug` - Sentence Augmentations](#sentence-augmentations)
     * [`augtxt.typo` - Typographical Errors](#typographical-errors-tippfehler)
     * [`augtxt.punct` - Interpunctation Errors](#interpunctation-errors-zeichensetzungsfehler)
+    * [`augtxt.order` - Word Order Errors](#word-order-errors-wortstellungsfehler)
     * [`augtxt.wordsubs` - Word substitutions](#word-substitutions)
 * Appendix
     * [Installation](#installation)
@@ -119,6 +120,7 @@ settings = [
         'keymap': kbl.qwertz_de,
         'trans': kbl.keyboard_transprob
     },
+
 ]
 
 np.random.seed(seed=42)
@@ -201,6 +203,10 @@ augm = pressed_shiftalt("Onkel", loc=2, keymap=kbl.macbook_us, trans=keyboard_tr
 ```
 
 
+### References
+- Lisbach, B., 2011. Linguistisches Identity Matching. Vieweg+Teubner, Wiesbaden. https://doi.org/10.1007/978-3-8348-9791-6
+
+
 ## Interpunctation Errors (Zeichensetzungsfehler)
 
 ### Remove PUNCT and COMMA tokens
@@ -231,6 +237,42 @@ assert augmented == 'Die Bindestrich-Wörter sindda.'
 np.random.seed(seed=1)
 augmented = augtxt.punct.merge_words(text, num_aug=1)
 assert augmented == 'Die Bindestrichwörter sind da.'
+```
+
+
+## Word Order Errors (Wortstellungsfehler)
+The `augtxt.order` simulate errors on word token level.
+
+### Swap words
+```py
+np.random.seed(seed=42)
+text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
+print(augtxt.order.swap_consecutive(text, exclude=["[MASK]"], num_augm=1))
+# die Tausche Wörter, lasse sie weg, oder [MASK] was.
+```
+
+### Write twice
+```py
+np.random.seed(seed=42)
+text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
+print(augtxt.order.write_twice(text, exclude=["[MASK]"], num_augm=1))
+# Tausche die die Wörter, lasse sie weg, oder [MASK] was.
+```
+
+### Drop word
+```py
+np.random.seed(seed=42)
+text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
+print(augtxt.order.drop_word(text, exclude=["[MASK]"], num_augm=1))
+# Tausche Wörter, lasse sie weg, oder [MASK] was.
+```
+
+### Drop word followed by a double word
+```py
+np.random.seed(seed=42)
+text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
+print(augtxt.order.drop_n_next_twice(text, exclude=["[MASK]"], num_augm=1))
+# die die Wörter, lasse sie weg, oder [MASK] was.
 ```
 
 
@@ -273,17 +315,13 @@ for s in augmented_seqs[0]:
 
 
 
-## References
-- Lisbach, B., 2011. Linguistisches Identity Matching. Vieweg+Teubner, Wiesbaden. https://doi.org/10.1007/978-3-8348-9791-6
-
-
 # Appendix
 
 ## Installation
 The `augtxt` [git repo](http://github.com/ulf1/augtxt) is available as [PyPi package](https://pypi.org/project/augtxt)
 
 ```sh
-pip install augtxt>=0.2.4
+pip install augtxt>=0.4.2
 pip install git+ssh://git@github.com/ulf1/augtxt.git
 ```
 
