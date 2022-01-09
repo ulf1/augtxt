@@ -168,7 +168,7 @@ The `augtxt.order` simulate errors on word token level.
 ```py
 np.random.seed(seed=42)
 text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
-print(augtxt.order.swap_consecutive(text, exclude=["[MASK]"], num_augm=1))
+print(augtxt.order.swap_consecutive(text, exclude=["[MASK]"], num_aug=1))
 # die Tausche Wörter, lasse sie weg, oder [MASK] was.
 ```
 
@@ -176,7 +176,7 @@ print(augtxt.order.swap_consecutive(text, exclude=["[MASK]"], num_augm=1))
 ```py
 np.random.seed(seed=42)
 text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
-print(augtxt.order.write_twice(text, exclude=["[MASK]"], num_augm=1))
+print(augtxt.order.write_twice(text, exclude=["[MASK]"], num_aug=1))
 # Tausche die die Wörter, lasse sie weg, oder [MASK] was.
 ```
 
@@ -184,7 +184,7 @@ print(augtxt.order.write_twice(text, exclude=["[MASK]"], num_augm=1))
 ```py
 np.random.seed(seed=42)
 text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
-print(augtxt.order.drop_word(text, exclude=["[MASK]"], num_augm=1))
+print(augtxt.order.drop_word(text, exclude=["[MASK]"], num_aug=1))
 # Tausche Wörter, lasse sie weg, oder [MASK] was.
 ```
 
@@ -192,7 +192,7 @@ print(augtxt.order.drop_word(text, exclude=["[MASK]"], num_augm=1))
 ```py
 np.random.seed(seed=42)
 text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
-print(augtxt.order.drop_n_next_twice(text, exclude=["[MASK]"], num_augm=1))
+print(augtxt.order.drop_n_next_twice(text, exclude=["[MASK]"], num_aug=1))
 # die die Wörter, lasse sie weg, oder [MASK] was.
 ```
 
@@ -234,7 +234,7 @@ synonyms = {
 
 np.random.seed(42)
 augmented_seqs = augtxt.wordsubs.synonym_replacement(
-    original_seqs, synonyms, num_augm=10, keep_case=True)
+    original_seqs, synonyms, num_aug=10, keep_case=True)
 
 # check results for 1st sentence
 for s in augmented_seqs[0]:

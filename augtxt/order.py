@@ -6,7 +6,7 @@ import re
 def swap_consecutive(original,
                      exclude: List[str] = ["[MASK]"],
                      punct: str = ".,;:!?",
-                     num_augm: int = 1):
+                     num_aug: int = 1):
     # simple whitespace tokenization
     token = [t for t in re.split(f"[ {punct}]", original) if len(t) > 0]
     # which tokens are not excluded?
@@ -18,7 +18,7 @@ def swap_consecutive(original,
     twoidx = twoidx[(twoidx[:, 1] - twoidx[:, 0]) == 1]
     # draw a random pair
     selected = np.random.choice(
-        twoidx.shape[0], min(twoidx.shape[0], num_augm), replace=False)
+        twoidx.shape[0], min(twoidx.shape[0], num_aug), replace=False)
     # swap tokens
     for i, j in twoidx[selected, :]:
         idx1 = original.find(token[i])
@@ -36,7 +36,7 @@ def swap_consecutive(original,
 def drop_word(original,
               exclude: List[str] = ["[MASK]"],
               punct: str = ".,;:!?",
-              num_augm: int = 1):
+              num_aug: int = 1):
     # simple whitespace tokenization
     token = [t for t in re.split(f"[ {punct}]", original) if len(t) > 0]
     # which tokens are not excluded?
@@ -45,7 +45,7 @@ def drop_word(original,
     indicies = np.where([t not in exclude for t in token])[0]
     # draw random tokens
     selected = np.random.choice(
-        indicies, size=min(len(indicies), num_augm), replace=False)
+        indicies, size=min(len(indicies), num_aug), replace=False)
     # reomve words from string
     for i in selected:
         original = original.replace(token[i], "").strip()
@@ -59,7 +59,7 @@ def drop_word(original,
 def write_twice(original,
                 exclude: List[str] = ["[MASK]"],
                 punct: str = ".,;:!?",
-                num_augm: int = 1):
+                num_aug: int = 1):
     # simple whitespace tokenization
     token = [t for t in re.split(f"[ {punct}]", original) if len(t) > 0]
     # which tokens are not excluded?
@@ -68,7 +68,7 @@ def write_twice(original,
     indicies = np.where([t not in exclude for t in token])[0]
     # draw random tokens
     selected = np.random.choice(
-        indicies, size=min(len(indicies), num_augm), replace=False)
+        indicies, size=min(len(indicies), num_aug), replace=False)
     # reomve words from string
     for i in selected:
         idx = original.find(token[i])
@@ -84,7 +84,7 @@ def write_twice(original,
 def drop_n_next_twice(original,
                       exclude: List[str] = ["[MASK]"],
                       punct: str = ".,;:!?",
-                      num_augm: int = 1):
+                      num_aug: int = 1):
     # simple whitespace tokenization
     token = [t for t in re.split(f"[ {punct}]", original) if len(t) > 0]
     # which tokens are not excluded?
@@ -96,7 +96,7 @@ def drop_n_next_twice(original,
     twoidx = twoidx[(twoidx[:, 1] - twoidx[:, 0]) == 1]
     # draw a random pair
     selected = np.random.choice(
-        twoidx.shape[0], min(twoidx.shape[0], num_augm), replace=False)
+        twoidx.shape[0], min(twoidx.shape[0], num_aug), replace=False)
     # drop first token, and add the other one
     for i, j in twoidx[selected, :]:
         idx1 = original.find(token[i])
