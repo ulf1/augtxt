@@ -16,7 +16,7 @@ Yet another text augmentation python package.
     * [`augtxt.typo` - Typographical Errors](#typographical-errors-tippfehler)
     * [`augtxt.punct` - Interpunctation Errors](#interpunctation-errors-zeichensetzungsfehler)
     * [`augtxt.order` - Word Order Errors](#word-order-errors-wortstellungsfehler)
-    * [`augtxt.wordsubs` - Word substitutions](#word-substitutions)
+    * [~~`augtxt.wordsubs` - Word substitutions~~](#word-substitutions)
 * Appendix
     * [Installation](#installation)
     * [Commands](#commands)
@@ -276,7 +276,14 @@ print(augtxt.order.drop_n_next_twice(text, exclude=["[MASK]"], num_augm=1))
 ```
 
 
-## Word substitutions
+## ~~Word substitutions~~ (Deprecated)
+
+**Deprecation Notice:**
+`augtxt.wordsubs` will be deleted in 0.6.0 and replaced.
+Especially synonym replacement is not trivial in German language.
+Please check https://github.com/ulf1/flexion for further information.
+
+
 The `augtxt.wordsubs` module is about replacing specific strings, e.g. words, morphemes, named entities, abbreviations, etc.
 
 
