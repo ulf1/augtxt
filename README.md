@@ -11,8 +11,8 @@ Yet another text augmentation python package.
 ## Table of Contents
 * Usage
     * [`augtxt.augmenters` - Pipelines](#pipelines)
-        * [`wordaug` - Word Augmentations](#word-augmentations)
-        * [`sentaug` - Sentence Augmentations](#sentence-augmentations)
+        * [`wordtypo` - Word Augmentations](#word-augmentations)
+        * [`senttypo` - Sentence Augmentations](#sentence-augmentations)
     * [`augtxt.typo` - Typographical Errors](#typographical-errors-tippfehler)
     * [`augtxt.punct` - Interpunctation Errors](#interpunctation-errors-zeichensetzungsfehler)
     * [`augtxt.order` - Word Order Errors](#word-order-errors-wortstellungsfehler)
@@ -35,12 +35,12 @@ import numpy as np
 ## Pipelines
 
 ### Word Augmentations
-The function `augtxt.augmenters.wordaug` applies randomly different augmentations to one word.
+The function `augtxt.augmenters.wordtypo` applies randomly different augmentations to one word.
 The result is a simulated distribution of possible word augmentations, e.g. how are possible typological errors distributed for a specific original word.
 The procedure does **not guarantee** that the original word will be augmented.
 
 ```py
-from augtxt.augmenters import wordaug
+from augtxt.augmenters import wordtypo
 import augtxt.keyboard_layouts as kbl
 import numpy as np
 from collections import Counter
@@ -79,14 +79,14 @@ np.random.seed(seed=42)
 word = "Blume"
 newwords = []
 for i in range(1000):
-    newwords.append( wordaug(word, settings) )
+    newwords.append( wordtypo(word, settings) )
 
 Counter(newwords)
 ```
 
 
 ### Sentence Augmentations
-The function `augtxt.augmenters.sentaug` applies randomly different augmentations to 
+The function `augtxt.augmenters.senttypo` applies randomly different augmentations to 
 a) at least one word in a sentence, or
 b) not more than a certain percentage of words in a sentence.
 The procedure **guarantees** that the sentence is augmented.
@@ -94,7 +94,7 @@ The procedure **guarantees** that the sentence is augmented.
 The functions also allows to exclude specific strings from augmentation (e.g. `exclude=("[MASK]", "[UNK]")`). However, these strings **cannot** include the special characters ` .,;:!?` (incl. whitespace).
 
 ```py
-from augtxt.augmenters import sentaug
+from augtxt.augmenters import senttypo
 import augtxt.keyboard_layouts as kbl
 import numpy as np
 
@@ -126,7 +126,7 @@ settings = [
 np.random.seed(seed=42)
 exclude = ["[MASK]", "[UNK]"]
 sentence = 'Die Lehrerin [MASK] einen Roman.'
-augmentations = sentaug(sentence, settings=settings, exclude=exclude, num_augmentations=10, pmax=0.1)
+augmentations = senttypo(sentence, settings=settings, exclude=exclude, num_augmentations=10, pmax=0.1)
 assert len(augmentations) == 10
 ```
 
@@ -321,7 +321,7 @@ for s in augmented_seqs[0]:
 The `augtxt` [git repo](http://github.com/ulf1/augtxt) is available as [PyPi package](https://pypi.org/project/augtxt)
 
 ```sh
-pip install augtxt>=0.4.2
+pip install augtxt>=0.5.0
 pip install git+ssh://git@github.com/ulf1/augtxt.git
 ```
 

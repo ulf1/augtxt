@@ -11,7 +11,7 @@ fn_dict = {
     'typo.pressed_twice': typo.pressed_twice,
     'typo.drop_char': typo.drop_char,
     'typo.drop_n_next_twice': typo.drop_n_next_twice,
-    'typo.pressed_shiftalt': typo.pressed_shiftalt
+    'typo.pressed_shiftalt': typo.pressed_shiftalt,
 }
 
 
@@ -25,7 +25,7 @@ def random_args(cfg_: dict):
     return cfg
 
 
-def wordaug(original: str, settings: List[dict]) -> str:
+def wordtypo(original: str, settings: List[dict]) -> str:
     """Apply different augmentation functions to one word
 
     Parameters:
@@ -41,7 +41,7 @@ def wordaug(original: str, settings: List[dict]) -> str:
 
     Example:
     --------
-        from augtxt.augmenters import wordaug
+        from augtxt.augmenters import wordtypo
         from collections import Counter
         import numpy as np
         np.random.seed(seed=42)
@@ -55,7 +55,7 @@ def wordaug(original: str, settings: List[dict]) -> str:
         tokenseq = ["Dies", "ist", "ein", "Satz", "."]
 
         n_trials = 1000
-        results = [' '.join([wordaug(word, settings) for word in tokenseq])
+        results = [' '.join([wordtypo(word, settings) for word in tokenseq])
                    for _ in range(n_trials)]
 
         Counter(results)
@@ -73,11 +73,11 @@ def wordaug(original: str, settings: List[dict]) -> str:
     return result
 
 
-def sentaug(original: str,
-            settings: List[dict],
-            exclude: List[str] = None,
-            num_augmentations: int = 1,
-            pmax: float = 0.1) -> List[str]:
+def senttypo(original: str,
+             settings: List[dict],
+             exclude: List[str] = None,
+             num_augmentations: int = 1,
+             pmax: float = 0.1) -> List[str]:
     """ Apply different augmentation functions to at least one word or up
           a certain percentage of words in a sentence
 
@@ -105,7 +105,7 @@ def sentaug(original: str,
 
     Example:
     --------
-        from augtxt.augmenters import sentaug
+        from augtxt.augmenters import senttypo
         import numpy as np
         np.random.seed(seed=42)
 
@@ -119,18 +119,10 @@ def sentaug(original: str,
 
         orginal = 'Die Lehrerin [MASK] einen Roman.'
 
-        augm = sentaug(original, settings=settings, exclude=exclude, 2, 0.1)
+        augm = senttypo(original, settings=settings, exclude=exclude, 2, 0.1)
     """
     # tokenization
-    # if isinstance(original, str):
     token = [t for t in re.split('[ .,;:!?]', original) if len(t) > 0]
-    # elif isinstance(original, (tuple, list)):
-    #     token = original
-    # else:
-    #     raise Exception(f"type(orginal)={type(original)} is not supported")
-
-    # if len(token) == 0:
-    #     return []
 
     # number of words to augment
     num_aug = max(int(len(token) * pmax), 1)

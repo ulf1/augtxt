@@ -1,4 +1,4 @@
-from augtxt.augmenters import wordaug
+from augtxt.augmenters import wordtypo
 import augtxt.keyboard_layouts as kbl
 import numpy as np
 from collections import Counter
@@ -39,7 +39,7 @@ def test1():
     word = "Blume"
     newwords = []
     for i in range(100):
-        newwords.append(wordaug(word, settings))
+        newwords.append(wordtypo(word, settings))
     assert list(dict(Counter(newwords)).keys()) == [
         'Blume', 'Blum', 'Bllume', 'Bmme', 'Blumee', 'Bblum',
         'BlUme', 'Bluee', 'Bluem', 'Buume', 'Blmme']
