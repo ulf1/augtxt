@@ -171,7 +171,6 @@ fn_dict2 = {
 }
 
 
-
 def sentaugm(sentence, settings, exclude=["[MASK]"]):
     """
 
@@ -202,7 +201,7 @@ def sentaugm(sentence, settings, exclude=["[MASK]"]):
     ]
 
     settings = {
-        "typo": {"num_augmentations": 6, 
+        "typo": {"num_augmentations": 6,
                  "settings": typo_settings, "pmax": 0.1},
         "punct": {"num_augmentations": 3},
         "order": {"num_augmentations": 6, "settings": order_settings}
@@ -233,10 +232,10 @@ def sentaugm(sentence, settings, exclude=["[MASK]"]):
         # word order errors
         if settings.get("order"):
             cfg = settings.get("order")
-            weights = np.array([item.get('weight') for item 
+            weights = np.array([item.get('weight') for item
                                 in cfg.get("settings")])
             p = weights / weights.sum()
-            idx = np.random.choice(range(len(p)), 
+            idx = np.random.choice(range(len(p)),
                                    size=cfg.get("num_augmentations"),
                                    replace=True, p=p)
             for i in idx:
