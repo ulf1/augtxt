@@ -39,50 +39,7 @@ The function `augtxt.augmenters.wordtypo` applies randomly different augmentatio
 The result is a simulated distribution of possible word augmentations, e.g. how are possible typological errors distributed for a specific original word.
 The procedure does **not guarantee** that the original word will be augmented.
 
-```py
-from augtxt.augmenters import wordtypo
-import augtxt.keyboard_layouts as kbl
-import numpy as np
-from collections import Counter
-
-settings = [
-    {
-        'p': 0.04,
-        'fn': 'typo.drop_n_next_twice',
-        'args': {'loc': ['m', 'e'], 'keep_case': True}
-    },
-    {
-        'p': 0.04,
-        'fn': 'typo.swap_consecutive',
-        'args': {'loc': ['m', 'e'], 'keep_case': True}
-    },
-    {
-        'p': 0.02,
-        'fn': 'typo.pressed_twice',
-        'args': {'loc': 'u', 'keep_case': True}
-    },
-    {
-        'p': 0.02,
-        'fn': 'typo.drop_char',
-        'args': {'loc': ['m', 'e'], 'keep_case': True}
-    },
-    {
-        'p': 0.02,
-        'fn': 'typo.pressed_shiftalt',
-        'args': {'loc': ['b', 'm']},
-        'keymap': kbl.macbook_us,
-        'trans': kbl.keyboard_transprob
-    },
-]
-
-np.random.seed(seed=42)
-word = "Blume"
-newwords = []
-for i in range(1000):
-    newwords.append( wordtypo(word, settings) )
-
-Counter(newwords)
-```
+Check the [demo notebook](demo/Word%20Typo%20Augmentations.ipynb) for an usage example.
 
 
 ### Sentence Augmentations
@@ -93,43 +50,7 @@ The procedure **guarantees** that the sentence is augmented.
 
 The functions also allows to exclude specific strings from augmentation (e.g. `exclude=("[MASK]", "[UNK]")`). However, these strings **cannot** include the special characters ` .,;:!?` (incl. whitespace).
 
-```py
-from augtxt.augmenters import senttypo
-import augtxt.keyboard_layouts as kbl
-import numpy as np
-
-settings = [
-    {
-        'weight': 2, 'fn': 'typo.drop_n_next_twice',
-        'args': {'loc': 'u', 'keep_case': True}
-    },
-    {
-        'weight': 2, 'fn': 'typo.swap_consecutive', 
-        'args': {'loc': 'u', 'keep_case': True}},
-    {
-        'weight': 1, 'fn': 'typo.pressed_twice',
-        'args': {'loc': 'u', 'keep_case': True}
-    },
-    {
-        'weight': 1, 'fn': 'typo.drop_char',
-        'args': {'loc': 'u', 'keep_case': True}
-    },
-    {
-        'weight': 1, 'fn': 'typo.pressed_shiftalt',
-        'args': {'loc': ['b', 'm']},
-        'keymap': kbl.qwertz_de,
-        'trans': kbl.keyboard_transprob
-    },
-
-]
-
-np.random.seed(seed=42)
-exclude = ["[MASK]", "[UNK]"]
-sentence = 'Die Lehrerin [MASK] einen Roman.'
-augmentations = senttypo(sentence, settings=settings, exclude=exclude, num_augmentations=10, pmax=0.1)
-assert len(augmentations) == 10
-```
-
+Check the [demo notebook](demo/Sentence%20Typo%20Augmentations.ipynb) for an usage example.
 
 
 ## Typographical Errors (Tippfehler)
