@@ -2,6 +2,13 @@ from typing import Optional, List, Dict, Union
 import scipy.stats
 import copy
 import itertools
+import warnings
+
+
+warnings.warn(
+    "`augtxt.wordsubs` will be deleted in 0.6.0 and replaced.",
+    DeprecationWarning
+)
 
 
 def synonym_replacement(original_seqs: List[List[str]],

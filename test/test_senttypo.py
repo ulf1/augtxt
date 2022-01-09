@@ -1,4 +1,4 @@
-from augtxt.augmenters import sentaug
+from augtxt.augmenters import senttypo
 import augtxt.keyboard_layouts as kbl
 import numpy as np
 
@@ -31,7 +31,7 @@ def test1():
     np.random.seed(seed=42)
     exclude = ["[MASK]", "[UNK]"]
     sentence = 'Die Lehrerin [MASK] einen Roman.'
-    augmentations = sentaug(
+    augmentations = senttypo(
         sentence, settings=settings, exclude=exclude,
         num_augmentations=10, pmax=0.1)
     assert len(augmentations) == 10

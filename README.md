@@ -11,11 +11,12 @@ Yet another text augmentation python package.
 ## Table of Contents
 * Usage
     * [`augtxt.augmenters` - Pipelines](#pipelines)
-        * [`wordaug` - Word Augmentations](#word-augmentations)
-        * [`sentaug` - Sentence Augmentations](#sentence-augmentations)
+        * [`wordtypo` - Word Augmentations](#word-augmentations)
+        * [`senttypo` - Sentence Augmentations](#sentence-augmentations)
     * [`augtxt.typo` - Typographical Errors](#typographical-errors-tippfehler)
     * [`augtxt.punct` - Interpunctation Errors](#interpunctation-errors-zeichensetzungsfehler)
-    * [`augtxt.wordsubs` - Word substitutions](#word-substitutions)
+    * [`augtxt.order` - Word Order Errors](#word-order-errors-wortstellungsfehler)
+    * [~~`augtxt.wordsubs` - Word substitutions~~](#word-substitutions)
 * Appendix
     * [Installation](#installation)
     * [Commands](#commands)
@@ -34,100 +35,22 @@ import numpy as np
 ## Pipelines
 
 ### Word Augmentations
-The function `augtxt.augmenters.wordaug` applies randomly different augmentations to one word.
+The function `augtxt.augmenters.wordtypo` applies randomly different augmentations to one word.
 The result is a simulated distribution of possible word augmentations, e.g. how are possible typological errors distributed for a specific original word.
 The procedure does **not guarantee** that the original word will be augmented.
 
-```py
-from augtxt.augmenters import wordaug
-import augtxt.keyboard_layouts as kbl
-import numpy as np
-from collections import Counter
-
-settings = [
-    {
-        'p': 0.04,
-        'fn': 'typo.drop_n_next_twice',
-        'args': {'loc': ['m', 'e'], 'keep_case': True}
-    },
-    {
-        'p': 0.04,
-        'fn': 'typo.swap_consecutive',
-        'args': {'loc': ['m', 'e'], 'keep_case': True}
-    },
-    {
-        'p': 0.02,
-        'fn': 'typo.pressed_twice',
-        'args': {'loc': 'u', 'keep_case': True}
-    },
-    {
-        'p': 0.02,
-        'fn': 'typo.drop_char',
-        'args': {'loc': ['m', 'e'], 'keep_case': True}
-    },
-    {
-        'p': 0.02,
-        'fn': 'typo.pressed_shiftalt',
-        'args': {'loc': ['b', 'm']},
-        'keymap': kbl.macbook_us,
-        'trans': kbl.keyboard_transprob
-    },
-]
-
-np.random.seed(seed=42)
-word = "Blume"
-newwords = []
-for i in range(1000):
-    newwords.append( wordaug(word, settings) )
-
-Counter(newwords)
-```
+Check the [demo notebook](demo/Word%20Typo%20Augmentations.ipynb) for an usage example.
 
 
 ### Sentence Augmentations
-The function `augtxt.augmenters.sentaug` applies randomly different augmentations to 
+The function `augtxt.augmenters.senttypo` applies randomly different augmentations to 
 a) at least one word in a sentence, or
 b) not more than a certain percentage of words in a sentence.
 The procedure **guarantees** that the sentence is augmented.
 
 The functions also allows to exclude specific strings from augmentation (e.g. `exclude=("[MASK]", "[UNK]")`). However, these strings **cannot** include the special characters ` .,;:!?` (incl. whitespace).
 
-```py
-from augtxt.augmenters import sentaug
-import augtxt.keyboard_layouts as kbl
-import numpy as np
-
-settings = [
-    {
-        'weight': 2, 'fn': 'typo.drop_n_next_twice',
-        'args': {'loc': 'u', 'keep_case': True}
-    },
-    {
-        'weight': 2, 'fn': 'typo.swap_consecutive', 
-        'args': {'loc': 'u', 'keep_case': True}},
-    {
-        'weight': 1, 'fn': 'typo.pressed_twice',
-        'args': {'loc': 'u', 'keep_case': True}
-    },
-    {
-        'weight': 1, 'fn': 'typo.drop_char',
-        'args': {'loc': 'u', 'keep_case': True}
-    },
-    {
-        'weight': 1, 'fn': 'typo.pressed_shiftalt',
-        'args': {'loc': ['b', 'm']},
-        'keymap': kbl.qwertz_de,
-        'trans': kbl.keyboard_transprob
-    },
-]
-
-np.random.seed(seed=42)
-exclude = ["[MASK]", "[UNK]"]
-sentence = 'Die Lehrerin [MASK] einen Roman.'
-augmentations = sentaug(sentence, settings=settings, exclude=exclude, num_augmentations=10, pmax=0.1)
-assert len(augmentations) == 10
-```
-
+Check the [demo notebook](demo/Sentence%20Typo%20Augmentations.ipynb) for an usage example.
 
 
 ## Typographical Errors (Tippfehler)
@@ -201,6 +124,10 @@ augm = pressed_shiftalt("Onkel", loc=2, keymap=kbl.macbook_us, trans=keyboard_tr
 ```
 
 
+### References
+- Lisbach, B., 2011. Linguistisches Identity Matching. Vieweg+Teubner, Wiesbaden. https://doi.org/10.1007/978-3-8348-9791-6
+
+
 ## Interpunctation Errors (Zeichensetzungsfehler)
 
 ### Remove PUNCT and COMMA tokens
@@ -234,7 +161,50 @@ assert augmented == 'Die Bindestrichwörter sind da.'
 ```
 
 
-## Word substitutions
+## Word Order Errors (Wortstellungsfehler)
+The `augtxt.order` simulate errors on word token level.
+
+### Swap words
+```py
+np.random.seed(seed=42)
+text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
+print(augtxt.order.swap_consecutive(text, exclude=["[MASK]"], num_augm=1))
+# die Tausche Wörter, lasse sie weg, oder [MASK] was.
+```
+
+### Write twice
+```py
+np.random.seed(seed=42)
+text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
+print(augtxt.order.write_twice(text, exclude=["[MASK]"], num_augm=1))
+# Tausche die die Wörter, lasse sie weg, oder [MASK] was.
+```
+
+### Drop word
+```py
+np.random.seed(seed=42)
+text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
+print(augtxt.order.drop_word(text, exclude=["[MASK]"], num_augm=1))
+# Tausche Wörter, lasse sie weg, oder [MASK] was.
+```
+
+### Drop word followed by a double word
+```py
+np.random.seed(seed=42)
+text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
+print(augtxt.order.drop_n_next_twice(text, exclude=["[MASK]"], num_augm=1))
+# die die Wörter, lasse sie weg, oder [MASK] was.
+```
+
+
+## ~~Word substitutions~~ (Deprecated)
+
+**Deprecation Notice:**
+`augtxt.wordsubs` will be deleted in 0.6.0 and replaced.
+Especially synonym replacement is not trivial in German language.
+Please check https://github.com/ulf1/flexion for further information.
+
+
 The `augtxt.wordsubs` module is about replacing specific strings, e.g. words, morphemes, named entities, abbreviations, etc.
 
 
@@ -273,17 +243,13 @@ for s in augmented_seqs[0]:
 
 
 
-## References
-- Lisbach, B., 2011. Linguistisches Identity Matching. Vieweg+Teubner, Wiesbaden. https://doi.org/10.1007/978-3-8348-9791-6
-
-
 # Appendix
 
 ## Installation
 The `augtxt` [git repo](http://github.com/ulf1/augtxt) is available as [PyPi package](https://pypi.org/project/augtxt)
 
 ```sh
-pip install augtxt>=0.2.4
+pip install augtxt>=0.5.0
 pip install git+ssh://git@github.com/ulf1/augtxt.git
 ```
 

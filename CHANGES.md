@@ -1,3 +1,8 @@
+# 0.5.0 / 2022-01-09
+
+  * Word order errors added
+  * rename augtxt.augmenters.{wordaug,sentaug} to {wordtypo,senttypo}
+
 # 0.4.0 / 2021-12-24
 
   * fasttext removed
