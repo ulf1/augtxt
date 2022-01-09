@@ -2,6 +2,7 @@
 
   * Word order errors added
   * rename augtxt.augmenters.{wordaug,sentaug} to {wordtypo,senttypo}
+  * Sentence augmentation pipeline for word typos, interpuncation errors, and word order errors
 
 # 0.4.0 / 2021-12-24
 

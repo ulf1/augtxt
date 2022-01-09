@@ -11,8 +11,9 @@ Yet another text augmentation python package.
 ## Table of Contents
 * Usage
     * [`augtxt.augmenters` - Pipelines](#pipelines)
-        * [`wordtypo` - Word Augmentations](#word-augmentations)
-        * [`senttypo` - Sentence Augmentations](#sentence-augmentations)
+        * [`sentaugm` - Sentence Augmentation](#sentence-augmentations)
+        * [`wordtypo` - Word Typos](#word-typos)
+        * [`senttypo` - Word typos for a sentence](#word-typos-for-a-sentence)
     * [`augtxt.typo` - Typographical Errors](#typographical-errors-tippfehler)
     * [`augtxt.punct` - Interpunctation Errors](#interpunctation-errors-zeichensetzungsfehler)
     * [`augtxt.order` - Word Order Errors](#word-order-errors-wortstellungsfehler)
@@ -34,7 +35,11 @@ import numpy as np
 
 ## Pipelines
 
-### Word Augmentations
+### Sentence Augmentations
+Check the [demo notebook](demo/Sentence%20Augmentations.ipynb) for an usage example.
+
+
+### Word typos
 The function `augtxt.augmenters.wordtypo` applies randomly different augmentations to one word.
 The result is a simulated distribution of possible word augmentations, e.g. how are possible typological errors distributed for a specific original word.
 The procedure does **not guarantee** that the original word will be augmented.
@@ -42,7 +47,7 @@ The procedure does **not guarantee** that the original word will be augmented.
 Check the [demo notebook](demo/Word%20Typo%20Augmentations.ipynb) for an usage example.
 
 
-### Sentence Augmentations
+### Word typos for a sentence
 The function `augtxt.augmenters.senttypo` applies randomly different augmentations to 
 a) at least one word in a sentence, or
 b) not more than a certain percentage of words in a sentence.
@@ -168,7 +173,7 @@ The `augtxt.order` simulate errors on word token level.
 ```py
 np.random.seed(seed=42)
 text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
-print(augtxt.order.swap_consecutive(text, exclude=["[MASK]"], num_augm=1))
+print(augtxt.order.swap_consecutive(text, exclude=["[MASK]"], num_aug=1))
 # die Tausche Wörter, lasse sie weg, oder [MASK] was.
 ```
 
@@ -176,7 +181,7 @@ print(augtxt.order.swap_consecutive(text, exclude=["[MASK]"], num_augm=1))
 ```py
 np.random.seed(seed=42)
 text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
-print(augtxt.order.write_twice(text, exclude=["[MASK]"], num_augm=1))
+print(augtxt.order.write_twice(text, exclude=["[MASK]"], num_aug=1))
 # Tausche die die Wörter, lasse sie weg, oder [MASK] was.
 ```
 
@@ -184,7 +189,7 @@ print(augtxt.order.write_twice(text, exclude=["[MASK]"], num_augm=1))
 ```py
 np.random.seed(seed=42)
 text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
-print(augtxt.order.drop_word(text, exclude=["[MASK]"], num_augm=1))
+print(augtxt.order.drop_word(text, exclude=["[MASK]"], num_aug=1))
 # Tausche Wörter, lasse sie weg, oder [MASK] was.
 ```
 
@@ -192,7 +197,7 @@ print(augtxt.order.drop_word(text, exclude=["[MASK]"], num_augm=1))
 ```py
 np.random.seed(seed=42)
 text = "Tausche die Wörter, lasse sie weg, oder [MASK] was."
-print(augtxt.order.drop_n_next_twice(text, exclude=["[MASK]"], num_augm=1))
+print(augtxt.order.drop_n_next_twice(text, exclude=["[MASK]"], num_aug=1))
 # die die Wörter, lasse sie weg, oder [MASK] was.
 ```
 
@@ -234,7 +239,7 @@ synonyms = {
 
 np.random.seed(42)
 augmented_seqs = augtxt.wordsubs.synonym_replacement(
-    original_seqs, synonyms, num_augm=10, keep_case=True)
+    original_seqs, synonyms, num_aug=10, keep_case=True)
 
 # check results for 1st sentence
 for s in augmented_seqs[0]:

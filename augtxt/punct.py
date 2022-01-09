@@ -16,7 +16,10 @@ def remove_syntaxinfo(text: str) -> str:
     return re.sub(r'\s+', ' ', re.sub(r'[.?!;:,]+', ' ', text)).strip()
 
 
-def merge_words(text_: str, sep=[" ", "-", "–"], num_aug: int = 1) -> str:
+def merge_words(text_: str,
+                sep=[" ", "-", "–"],
+                exclude=["[MASK]"],
+                num_aug: int = 1) -> str:
     """ Remove whitespace- or hyphen-seperated words
 
     Example:
@@ -26,6 +29,9 @@ def merge_words(text_: str, sep=[" ", "-", "–"], num_aug: int = 1) -> str:
     """
     text = copy.copy(text_)
     indicies = [i for i, c in enumerate(text) if c in sep]
+    for ex in exclude:
+        indicies = [i for i in indicies if text[i + 1:i + len(ex) + 1] != ex]
+        indicies = [i for i in indicies if text[i - len(ex): i] != ex]
     indicies = np.flip(np.sort(np.random.choice(indicies, size=num_aug)))
     for i in indicies:
         try:
