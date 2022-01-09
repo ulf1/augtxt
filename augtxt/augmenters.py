@@ -2,16 +2,18 @@ from typing import List
 import copy
 import numpy as np
 import scipy.stats
-import augtxt.typo as typo
+import augtxt.typo
+import augtxt.order
+import augtxt.punct
 import re
 
 
 fn_dict = {
-    'typo.swap_consecutive': typo.swap_consecutive,
-    'typo.pressed_twice': typo.pressed_twice,
-    'typo.drop_char': typo.drop_char,
-    'typo.drop_n_next_twice': typo.drop_n_next_twice,
-    'typo.pressed_shiftalt': typo.pressed_shiftalt,
+    'typo.swap_consecutive': augtxt.typo.swap_consecutive,
+    'typo.pressed_twice': augtxt.typo.pressed_twice,
+    'typo.drop_char': augtxt.typo.drop_char,
+    'typo.drop_n_next_twice': augtxt.typo.drop_n_next_twice,
+    'typo.pressed_shiftalt': augtxt.typo.pressed_shiftalt,
 }
 
 
@@ -159,3 +161,92 @@ def senttypo(original: str,
         augmentations.append(augsent)
     # done
     return augmentations
+
+
+fn_dict2 = {
+    'order.swap_consecutive': augtxt.order.swap_consecutive,
+    'order.drop_word': augtxt.order.drop_word,
+    'order.write_twice': augtxt.order.write_twice,
+    'order.drop_n_next_twice': augtxt.order.drop_n_next_twice
+}
+
+
+
+def sentaugm(sentence, settings, exclude=["[MASK]"]):
+    """
+
+    Example:
+    --------
+    from augtxt.augmenters import sentaugm
+    import augtxt.keyboard_layouts as kbl
+    import numpy as np
+
+    typo_settings = [
+        {'weight': 2, 'fn': 'typo.drop_n_next_twice',
+        'args': {'loc': 'u', 'keep_case': True}},
+        {'weight': 2, 'fn': 'typo.swap_consecutive',
+        'args': {'loc': 'u', 'keep_case': True}},
+        {'weight': 1, 'fn': 'typo.pressed_twice',
+        'args': {'loc': 'u', 'keep_case': True}},
+        {'weight': 1, 'fn': 'typo.drop_char',
+        'args': {'loc': 'u', 'keep_case': True}},
+        {'weight': 1, 'fn': 'typo.pressed_shiftalt',
+        'args': {'loc': ['b', 'm']}, 'keymap': kbl.qwertz_de}
+    ]
+
+    order_settings = [
+        {'weight': 3, 'fn': 'order.swap_consecutive'},
+        {'weight': 2, 'fn': 'order.drop_word'},
+        {'weight': 1, 'fn': 'order.write_twice'},
+        {'weight': 1, 'fn': 'order.drop_n_next_twice'},
+    ]
+
+    settings = {
+        "typo": {"num_augmentations": 6, 
+                 "settings": typo_settings, "pmax": 0.1},
+        "punct": {"num_augmentations": 3},
+        "order": {"num_augmentations": 6, "settings": order_settings}
+    }
+
+    np.random.seed(seed=42)
+    exclude = ["[MASK]", "[UNK]"]
+    sentence = 'Die Lehrerin [MASK] einen Roman.'
+    augs = sentaugm(sentence, settings, exclude)
+    """
+    augs = []
+    req_num = sum([v.get("num_augmentations") for _, v in settings.items()])
+    for _ in range(2):
+        # typographical errors
+        if settings.get("typo"):
+            augs.extend(augtxt.augmenters.senttypo(
+                sentence, exclude=exclude, **settings.get("typo")))
+
+        # interpunctation errors
+        if settings.get("punct"):
+            cfg = settings.get("punct")
+            if cfg.get("num_augmentations", 0) > 0:
+                augs.append(augtxt.punct.remove_syntaxinfo(sentence))
+            if cfg.get("num_augmentations", 0) > 1:
+                for _ in range(1, cfg.get("num_augmentations", 0)):
+                    augs.append(augtxt.punct.merge_words(sentence, num_aug=1))
+
+        # word order errors
+        if settings.get("order"):
+            cfg = settings.get("order")
+            weights = np.array([item.get('weight') for item 
+                                in cfg.get("settings")])
+            p = weights / weights.sum()
+            idx = np.random.choice(range(len(p)), 
+                                   size=cfg.get("num_augmentations"),
+                                   replace=True, p=p)
+            for i in idx:
+                fname = cfg.get("settings")[i].get('fn')
+                augs.append(fn_dict2[fname](
+                    sentence, exclude=exclude, num_aug=1))
+        # done?
+        if len(set(augs)) >= req_num:
+            break
+    # filter duplicates
+    augs = list(set(augs))
+    # chop excess
+    return augs[:req_num]

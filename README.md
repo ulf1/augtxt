@@ -11,8 +11,9 @@ Yet another text augmentation python package.
 ## Table of Contents
 * Usage
     * [`augtxt.augmenters` - Pipelines](#pipelines)
-        * [`wordtypo` - Word Augmentations](#word-augmentations)
-        * [`senttypo` - Sentence Augmentations](#sentence-augmentations)
+        * [`sentaugm` - Sentence Augmentation](#sentence-augmentations)
+        * [`wordtypo` - Word Typos](#word-typos)
+        * [`senttypo` - Word typos for a sentence](#word-typos-for-a-sentence)
     * [`augtxt.typo` - Typographical Errors](#typographical-errors-tippfehler)
     * [`augtxt.punct` - Interpunctation Errors](#interpunctation-errors-zeichensetzungsfehler)
     * [`augtxt.order` - Word Order Errors](#word-order-errors-wortstellungsfehler)
@@ -34,7 +35,11 @@ import numpy as np
 
 ## Pipelines
 
-### Word Augmentations
+### Sentence Augmentations
+Check the [demo notebook](demo/Sentence%20Augmentations.ipynb) for an usage example.
+
+
+### Word typos
 The function `augtxt.augmenters.wordtypo` applies randomly different augmentations to one word.
 The result is a simulated distribution of possible word augmentations, e.g. how are possible typological errors distributed for a specific original word.
 The procedure does **not guarantee** that the original word will be augmented.
@@ -42,7 +47,7 @@ The procedure does **not guarantee** that the original word will be augmented.
 Check the [demo notebook](demo/Word%20Typo%20Augmentations.ipynb) for an usage example.
 
 
-### Sentence Augmentations
+### Word typos for a sentence
 The function `augtxt.augmenters.senttypo` applies randomly different augmentations to 
 a) at least one word in a sentence, or
 b) not more than a certain percentage of words in a sentence.
