@@ -32,7 +32,8 @@ def merge_words(text_: str,
     for ex in exclude:
         indicies = [i for i in indicies if text[i + 1:i + len(ex) + 1] != ex]
         indicies = [i for i in indicies if text[i - len(ex): i] != ex]
-    indicies = np.flip(np.sort(np.random.choice(indicies, size=num_aug)))
+    if len(indicies) > 1:
+        indicies = np.flip(np.sort(np.random.choice(indicies, size=num_aug)))
     for i in indicies:
         try:
             text = text[:i] + text[i + 1].lower() + text[(i + 2):]
