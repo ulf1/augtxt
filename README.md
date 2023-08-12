@@ -1,9 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/augtxt.svg)](https://badge.fury.io/py/augtxt)
-[![DOI](https://zenodo.org/badge/315031055.svg)](https://zenodo.org/badge/latestdoi/315031055)
-[![augtxt](https://snyk.io/advisor/python/augtxt/badge.svg)](https://snyk.io/advisor/python/augtxt)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/ulf1/augtxt.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ulf1/augtxt/alerts/)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/ulf1/augtxt.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ulf1/augtxt/context:python)
 [![PyPi downloads](https://img.shields.io/pypi/dm/augtxt)](https://img.shields.io/pypi/dm/augtxt)
+[![DOI](https://zenodo.org/badge/315031055.svg)](https://zenodo.org/badge/latestdoi/315031055)
 
 # augtxt -- Text Augmentation
 Yet another text augmentation python package.
